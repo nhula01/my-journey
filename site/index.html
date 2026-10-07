@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="My Journey — nutrition, food insights and weight progress from your daily food logs.">
+  <title>My Journey · Weight</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="weight.css">
+  <script src="nutrition.js" defer></script>
+  <script src="weight.js" defer></script>
+</head>
+<body data-page="weight">
+  <a class="skip" href="#main">Skip to dashboard</a>
+  <header>
+    <a class="brand" href="index.html">My Journey<span>A LITTLE BETTER, EVERY DAY</span></a>
+    <nav aria-label="Journal pages"><a href="index.html" aria-current="page">01 / Weight</a><a href="piano.html">02 / Piano</a></nav>
+  </header>
+  <main id="main">
+    <section class="dashboard-intro">
+      <div><p class="eyebrow">01 / FOOD, HEALTH & PROGRESS</p><h1>Your daily nutrition.<br><em>One meal at a time.</em></h1><p class="lead">Your meals, made clearer. Log food and photos in this project’s chat; your nutrition and reflections come together here.</p></div>
+      <aside><span class="margin-label">a note to myself</span><p class="handwritten">Notice. Learn.<br>Make one small change.</p><span class="page-number">MY JOURNEY — 001</span></aside>
+    </section>
+    <section class="day-toolbar" aria-label="Choose a day">
+      <div class="date-navigation"><button id="previous-day" class="secondary" aria-label="Previous day">←</button><label for="day">Your day<input id="day" type="date"></label><button id="next-day" class="secondary" aria-label="Next day">→</button><button id="today" class="secondary">Today</button></div>
+      <div><p id="sync-status" class="muted" role="status">Loading your food journal…</p><button id="refresh" class="text-button">Refresh ↻</button></div>
+    </section>
+    <section class="energy-plan" aria-label="Daily calorie needs">
+      <div class="section-head"><div><p class="eyebrow">YOUR DAILY CALORIE NEEDS</p><h2>Maintain, reach, and keep your goal.</h2></div></div>
+      <div id="energy-plan-cards" class="energy-plan-grid"></div>
+      <p id="energy-plan-note" class="muted"></p>
+    </section>
+    <section class="nutrition-dashboard" aria-label="Daily nutrition">
+      <article class="calorie-card"><div><p class="eyebrow">DAILY ENERGY</p><h2>Calories</h2><div id="calorie-value" class="calorie-value">— <span>kcal logged</span></div><p id="calorie-range" class="muted"></p><div id="calorie-budget" class="budget"></div></div><div id="calorie-ring" class="calorie-ring" aria-label="Calorie target is unset"><div><span id="ring-value">—</span><small id="ring-label">target unset</small></div></div><p id="nutrition-coverage" class="coverage"></p></article>
+      <div id="macros" class="macro-grid"></div>
+    </section>
+    <p id="macro-target-note" class="muted macro-target-note"></p>
+    <section id="exercise-summary" class="exercise-summary" aria-label="Logged exercise"></section>
+    <section id="supporting-stats" class="stats" aria-label="Health statistics"></section>
+    <section id="weight-goal" class="weight-goal" aria-label="Weight goal"></section>
+    <div class="food-layout">
+      <section><div class="section-head"><div><p class="eyebrow">ON YOUR PLATE</p><h2>Your food log</h2></div><span id="meal-count" class="muted"></span></div><div id="food-log"></div></section>
+      <section class="reflection-panel"><p class="eyebrow">LEARN FROM TODAY</p><h2>What could be different?</h2><div id="suggestions"></div><div class="chat-note"><span class="eyebrow">YOUR LOGGING ROUTINE</span><p>Send a meal photo or description here in the project. Include portions, sauces, drinks, and the time if you know them. I’ll analyze it, update your totals, and record a practical suggestion.</p></div></section>
+    </div>
+    <section class="chart-section dashboard-chart"><div class="section-head"><div><p class="eyebrow">THE BIGGER PICTURE</p><h2>Trends over time</h2></div><label for="chart-metric">Show<select id="chart-metric"><option value="weight">Weight · kg</option><option value="calories">Calories · kcal</option><option value="protein">Protein · g</option><option value="carbs">Carbs · g</option><option value="fat">Fat · g</option></select></label></div><div id="chart"></div><p id="trend" class="muted"></p></section>
+    <p class="dashboard-footnote">Photo nutrition is an estimate. Ranges reflect uncertainty in portions and preparation; unlogged food is not included in your totals.</p>
+    <p id="status" role="status" aria-live="polite"></p>
+  </main>
+  <footer><span>My Journey · A personal notebook</span><span>Health & music, day by day.</span></footer>
+</body>
+</html>

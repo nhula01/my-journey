@@ -1,0 +1,9 @@
+.env
+.env.*
+__pycache__/
+*.pyc
+my-journey-*.json
+.DS_Store
+.journey/
+/AGENTS.md
+/tests/
