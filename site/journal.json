@@ -1,1 +1,302 @@
-{"version":1,"updatedAt":null,"goals":{},"meals":[],"measurements":[],"reflections":[]}
+{
+  "version": 1,
+  "updatedAt": "2026-10-07T01:13:30.887673+00:00",
+  "goals": {
+    "height": 178,
+    "weight": 79,
+    "deadline": "2026-12-10",
+    "note": "Provisional adult BMI goal: 79 kg by December 10, 2026. User reports male, age 23, 178 cm, 88 kg, regular walking/standing.",
+    "energyPlan": {
+      "maintainCurrent": 2830,
+      "loseTowardGoal": 1710,
+      "maintainGoal": 2630,
+      "inputWeight": 88,
+      "goalWeight": 79,
+      "height": 178,
+      "age": 23,
+      "sex": "male",
+      "activity": "Regular walking/standing; provisional NIH PAL 1.5. No additional logged exercise included.",
+      "pal": 1.5,
+      "deadline": "2026-12-10",
+      "calculatedAt": "2026-10-06T21:10:41.376164+00:00",
+      "startDate": "2026-10-06",
+      "days": 65,
+      "method": "NIH/NIDDK Body Weight Planner source equations, calculated locally; automatic body-fat/RMR estimates and default carbohydrate/sodium assumptions. No change in activity.",
+      "sourceURL": "https://www.niddk.nih.gov/bwp",
+      "summary": "Estimated from male, age 23, 178 cm, 88 kg and regular walking/standing (provisional activity level 1.5). Extra exercise is not included. Reaching 79 kg by December 10 implies about 1 kg/week, an ambitious pace; these are planning estimates, not a guarantee. We’ll adjust using your food, exercise and weight trend."
+    },
+    "calories": 1710,
+    "protein": 140,
+    "carbs": 193,
+    "fat": 42,
+    "fiber": 38,
+    "macroPlan": {
+      "calories": 1710,
+      "weight": 88,
+      "date": "2026-10-06",
+      "note": "Starting targets: protein about 1.6 g/kg current weight (rounded to 140 g); carbs and fat split the remaining calories within adult macronutrient distribution ranges. 140*4 + 193*4 + 42*9 = 1710 kcal by standard 4/4/9 planning factors. Fiber 38 g is the adequate-intake guideline for men aged 19–50; it is included within carbohydrate intake, not an additional calorie allowance. Targets are flexible guides and will be reviewed if calories, weight, activity or tolerance changes.",
+      "sources": [
+        "https://pubmed.ncbi.nlm.nih.gov/28698222/",
+        "https://www.nationalacademies.org/news/report-offers-new-eating-and-physical-activity-targets-to-reduce-chronic-disease-risk"
+      ]
+    }
+  },
+  "meals": [
+    {
+      "id": "2026-10-06-panda-01",
+      "date": "2026-10-06",
+      "mealType": "Meal",
+      "title": "Panda Express plate",
+      "description": "Half fried rice, half Super Greens, one Black Pepper Sirloin Steak entree, one Orange Chicken entree, and one fortune cookie.",
+      "nutrition": {
+        "calories": {
+          "value": 1175,
+          "low": 1000,
+          "high": 1350,
+          "source": "estimate"
+        },
+        "protein": {
+          "value": 47.5,
+          "low": 40,
+          "high": 55,
+          "source": "estimate"
+        },
+        "carbs": {
+          "value": 146,
+          "low": 125,
+          "high": 167,
+          "source": "estimate"
+        },
+        "fat": {
+          "value": 44,
+          "low": 37,
+          "high": 51,
+          "source": "estimate"
+        },
+        "fiber": {
+          "value": 7.5,
+          "low": 6,
+          "high": 9,
+          "source": "estimate"
+        }
+      },
+      "assumptions": "Assumes the entire plate was eaten, standard entree portions, and half of each listed side portion. User confirms eating the fortune cookie (20 kcal, 5 g carbs per published standard cookie). Receipt order time is not necessarily eating time. Portion variation is represented by approximate ranges. Official Panda Express values checked October 6, 2026: fried rice 610 kcal/full side, Super Greens 180 kcal/full side, steak 200 kcal/entree, Orange Chicken 560 kcal/entree.",
+      "analysis": "The half-greens choice adds vegetables and fiber. Orange Chicken is the largest calorie contribution (560 kcal), followed by the half portion of fried rice (305 kcal).",
+      "suggestions": [
+        {
+          "title": "Try teriyaki chicken for one entree",
+          "detail": "Replacing the Orange Chicken with a standard serving of grilled teriyaki chicken would reduce the published meal total by about 280 kcal while adding about 19 g protein. Keep the half-greens side if you enjoy it."
+        }
+      ],
+      "photos": [
+        {
+          "path": "photos/2026-10-06-panda-receipt.png",
+          "alt": "Receipt listing half fried rice, half Super Greens, Black Pepper Steak and Orange Chicken."
+        }
+      ],
+      "sources": [
+        "https://www.pandaexpress.com/nutritioninformation"
+      ]
+    },
+    {
+      "id": "2026-10-06-protein-01",
+      "date": "2026-10-06",
+      "mealType": "Protein shake",
+      "title": "Orgain Vanilla Bean protein · 2 scoops",
+      "description": "Two scoops of Orgain Organic Protein + 50 Superfoods, Vanilla Bean, mixed with water. No caloric additions.",
+      "nutrition": {
+        "calories": {
+          "value": 160,
+          "low": 160,
+          "high": 160,
+          "source": "label"
+        },
+        "protein": {
+          "value": 21,
+          "low": 21,
+          "high": 21,
+          "source": "label"
+        },
+        "carbs": {
+          "value": 21,
+          "low": 19,
+          "high": 23,
+          "source": "estimate"
+        },
+        "fat": {
+          "value": 4.5,
+          "low": 4,
+          "high": 5,
+          "source": "estimate"
+        },
+        "fiber": {
+          "value": 5,
+          "low": 5,
+          "high": 8,
+          "source": "estimate"
+        }
+      },
+      "assumptions": "User confirms water only. Two scoops are one 51 g serving according to the manufacturer’s product guide, not two servings. Calories (160) and protein (21 g) match the photographed front label. Carbs, fat and fiber use an older manufacturer Vanilla Bean 160-kcal panel as provisional estimates; the back label may differ.",
+      "analysis": "Provides 21 g protein for 160 kcal. Mixing with water adds no calories.",
+      "suggestions": [],
+      "photos": [
+        {
+          "path": "photos/2026-10-06-orgain-vanilla.png",
+          "alt": "Orgain Organic Protein plus 50 Superfoods Vanilla Bean container, showing 160 calories and 21 g protein per serving."
+        }
+      ],
+      "sources": [
+        "https://healthcare.orgain.com/static/frontend/LeVentures/orgain/en_US/pdf/resources/Orgain_Product_Guide_WEB_082720.pdf"
+      ]
+    },
+    {
+      "id": "2026-10-06-marinated-beef-rice-01",
+      "date": "2026-10-06",
+      "mealType": "Meal",
+      "title": "Marinated beef with white rice",
+      "description": "Marinated beef: two hand-sized portions, with 1 cup cooked white rice, as reported by the user.",
+      "nutrition": {
+        "calories": {
+          "value": 750,
+          "low": 600,
+          "high": 950,
+          "source": "estimate"
+        },
+        "protein": {
+          "value": 55,
+          "low": 45,
+          "high": 65,
+          "source": "estimate"
+        },
+        "carbs": {
+          "value": 55,
+          "low": 45,
+          "high": 65,
+          "source": "estimate"
+        },
+        "fat": {
+          "value": 34,
+          "low": 20,
+          "high": 50,
+          "source": "estimate"
+        },
+        "fiber": {
+          "value": 0.6,
+          "low": 0.3,
+          "high": 1,
+          "source": "estimate"
+        }
+      },
+      "assumptions": "User confirms 1 cup cooked rice and two hand-sized portions of beef. Beef is provisionally modeled as roughly 200 g cooked (about 170–230 g); hand size is not a measured weight. Rice contributes around 205 kcal; beef cut, fat content and marinade sugar/oil remain unknown. Includes all reported rice and beef portions. The 600–950 kcal range is a judgment-based portion/recipe estimate, not a measured confidence interval.",
+      "analysis": "Adds a substantial amount of protein. Beef fat and marinade/oil are the main sources of calorie uncertainty. White rice provides carbohydrate but relatively little fiber; no vegetable side is visible.",
+      "suggestions": [
+        {
+          "title": "Add a vegetable side and consider a leaner cut",
+          "detail": "Keep a satisfying portion of beef, and add broccoli, cabbage or another vegetable for fiber and volume. If choosing the ingredients, a leaner beef cut and measured cooking oil can lower calories without removing the protein source."
+        }
+      ],
+      "photos": [
+        {
+          "path": "photos/2026-10-06-marinated-beef-rice.png",
+          "alt": "Bowl of marinated beef pieces with cooked white rice and chopsticks."
+        }
+      ]
+    }
+  ],
+  "measurements": [
+    {
+      "date": "2026-10-06",
+      "weight": 88,
+      "source": "user",
+      "note": "Current weight reported in the project chat."
+    }
+  ],
+  "reflections": [],
+  "activities": [
+    {
+      "id": "2026-10-06-walking-01",
+      "date": "2026-10-06",
+      "title": "Walking & running",
+      "minutes": null,
+      "caloriesBurned": 100,
+      "source": "user",
+      "notes": "User confirms 100 kcal from walking and running combined. Duration is not provided. Weight lifting is an additional, separate 10-minute session. Not added to the food calorie budget."
+    },
+    {
+      "id": "2026-10-06-lifting-01",
+      "date": "2026-10-06",
+      "title": "Weight lifting",
+      "minutes": 10,
+      "caloriesBurned": null,
+      "notes": "User confirms an additional 10-minute lifting session, separate from the reported walking/running burn. Calorie burn is not provided and has not been estimated."
+    }
+  ],
+  "practices": [
+    {
+      "id": "youtube-Z1892WTbFKs",
+      "date": "2020-08-02",
+      "kind": "reference",
+      "title": "Simple Gift 2",
+      "videoId": "Z1892WTbFKs",
+      "durationSeconds": 57,
+      "practiceMinutes": null,
+      "piece": "Simple Gift 2 (video title)",
+      "focus": "Example of the recording journal",
+      "context": "An old recording supplied as a layout example on October 6, 2026. Recording date inferred from the YouTube title; not counted as today’s practice.",
+      "review": {
+        "status": "visual-only",
+        "scope": "Limited visual review: frames at 0:11 and 0:31. Audio has not been assessed.",
+        "summary": "The camera looks along the keyboard and crops much of the playing area. This example demonstrates the review layout, not your current playing level.",
+        "observations": [
+          {
+            "seconds": 11,
+            "detail": "Most of the frame shows the keyboard from one end. Both hands and wrists are not clearly visible, so fingering and wrist alignment cannot be assessed reliably."
+          },
+          {
+            "seconds": 31,
+            "detail": "A hand appears near the far edge, but this angle still hides much of the playing area. A higher, wider camera position would make the next take more useful."
+          }
+        ]
+      },
+      "nextPractice": {
+        "priority": "Restart with one short, repeatable passage.",
+        "steps": [
+          {
+            "title": "Choose a small passage",
+            "minutes": 5,
+            "detail": "Choose four comfortable bars from the piece you want to return to. Use a tempo at which you can play without rushing. This is a starting routine, not a diagnosis of the old recording."
+          },
+          {
+            "title": "Record a clear baseline",
+            "minutes": 2,
+            "detail": "Move the camera above and to one side of the keyboard. Show both hands and wrists. Record the same four bars for 30–90 seconds with clear piano audio."
+          },
+          {
+            "title": "Give the next take a question",
+            "minutes": 2,
+            "detail": "Share the new unlisted link, piece or score, minutes practiced, and one question—such as whether the pulse is steady or the melody is clear."
+          }
+        ],
+        "success": "The next recording shows both hands throughout, identifies the passage, and gives us one question to compare on your following take.",
+        "study": "Return to the same passage first. Specific technique or new repertoire recommendations come after a review of a current recording."
+      }
+    }
+  ],
+  "pianoLearning": [],
+  "pianoFocus": {
+    "piece": "The Entertainer",
+    "composer": "Scott Joplin",
+    "selectedDate": "2026-10-06",
+    "context": "Arrangement and score not supplied yet. This is an initial study plan, not a claim that you have practiced or mastered the topic.",
+    "scoreReference": "https://www.loc.gov/item/2023864238/",
+    "nextMove": {
+      "topic": "Keep a steady pulse while learning syncopation.",
+      "why": "The Entertainer is a ragtime piece. Understanding how the melody can fall between beats gives you a useful foundation before combining it with the accompaniment. Your arrangement is still unknown, so this is a general first step.",
+      "learn": "First check that you can count the beats and subdivide them evenly. Then study syncopation: rhythmic emphasis shifts toward a weak beat or weak part of a beat, sometimes through a note tied across a stronger beat. The accompaniment can keep the steady pulse underneath.",
+      "exercise": "Choose two to four bars from your own score. Tap a steady beat with one hand and clap the melody’s rhythm with the other while counting subdivisions aloud. Then try the melody alone at a comfortable slow tempo. Log which rhythm is confusing before adding the accompaniment.",
+      "success": "Self-check: repeat the passage’s rhythm three times without losing the steady tapped pulse. Point to one place where emphasis falls on a weak part of a beat or a note carries across a stronger beat. Report what happened; this is not yet a verified result.",
+      "resourceURL": "https://musictheory.pugetsound.edu/mt21c/CommonRhythmicNotationErrors.html",
+      "resourceTitle": "Study: showing beats and syncopation · University of Puget Sound ↗"
+    }
+  }
+}

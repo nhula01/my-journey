@@ -49,10 +49,11 @@ existing export/import backup controls.
 ## GitHub Pages
 
 The workflow publishes only `site/`. `.journey/` is gitignored and stays private.
-The empty `site/journal.json` is the starter public snapshot. **Private project
-updates appear in the local dashboard, not automatically on GitHub Pages.** A
-private authenticated backend is required for remote access to those records.
-Publishing personal snapshots requires explicit approval to share that data.
+The user has authorized publishing the journal records and referenced meal photos.
+`python3 scripts/export-public-journal.py --publish` exports only the journal display
+fields and referenced photos to `site/`. Commit and push that snapshot to update
+GitHub Pages. `.journey/` itself, credentials and unrelated files remain excluded.
+Public records can be read by anyone, including through the GitHub repository.
 
 Once GitHub CLI is authenticated, `sh scripts/publish.sh` creates the public
 `my-journey` repository, pushes the site, configures Pages, and starts deployment.

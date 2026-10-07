@@ -76,7 +76,7 @@ function render() {
     card.append(top,node('h3',m.title),node('p',m.description));
     const photos=node('div',undefined,'photos');(m.photos||[]).forEach(p=>{const img=node('img');img.alt=p.alt||m.title;img.loading='lazy';
       // Only local project photos are shown; never load arbitrary remote URLs.
-      if(local && /^photos\/[A-Za-z0-9._-]+\.(jpg|jpeg|png|webp)$/i.test(p.path)){img.src='/journal-photos/'+p.path.slice(7);photos.append(img);}
+      if(/^photos\/[A-Za-z0-9._-]+\.(jpg|jpeg|png|webp)$/i.test(p.path)){img.src=local?'/journal-photos/'+p.path.slice(7):p.path;photos.append(img);}
     });if(photos.childNodes.length)card.append(photos);
     card.append(node('p',N.KEYS.map(key=>{const n=m.nutrition?.[key];return `${key[0].toUpperCase()+key.slice(1)} ${n?`${n.source==='estimate'?'≈ ':''}${fmt(n.value)}${key==='calories'?' kcal':' g'}`:'—'}`;}).join(' · '),'meal-macros'));
     if(m.assumptions)card.append(node('p',m.assumptions,'uncertainty'));
@@ -137,7 +137,7 @@ function renderChart() {
 async function refresh() {
   if(loading)return;loading=true;$('#refresh').disabled=true;
   try{const response=await fetch(journalURL,{cache:'no-store'});if(!response.ok)throw new Error(`Journal returned HTTP ${response.status}.`);const data=await response.json();if(data.version!==1||!Array.isArray(data.meals)||!Array.isArray(data.measurements)||!Array.isArray(data.reflections)||!data.goals)throw new Error('Unexpected journal format.');journal=data;render();
-    $('#sync-status').textContent=local?(data.updatedAt?`Updated ${new Date(data.updatedAt).toLocaleString()}`:'Ready for your first food log'):'Published snapshot · chat updates appear locally';status('');
+    $('#sync-status').textContent=local?(data.updatedAt?`Updated ${new Date(data.updatedAt).toLocaleString()}`:'Ready for your first food log'):(data.updatedAt?`Published journal · updated ${new Date(data.updatedAt).toLocaleString()}`:'Published journal');status('');
   }catch(error){$('#sync-status').textContent='Journal could not refresh';status(`${error.message} Your last loaded dashboard is still shown.`);}finally{loading=false;$('#refresh').disabled=false;}
 }
 function shiftDay(offset){const date=new Date($('#day').value+'T12:00:00Z');date.setUTCDate(date.getUTCDate()+offset);$('#day').value=date.toISOString().slice(0,10);render();}
