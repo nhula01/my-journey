@@ -107,3 +107,34 @@ The Entertainer remains available alongside the classical library. A browser met
 supports 30–200 BPM. Self-checks and library selection stay in this browser’s local
 storage; they are not completed journal entries or automatic accuracy scores.
 Use a separately chosen score; no sheet music or MIDI assessment is bundled.
+
+## Interactive score practice
+
+The piano page now has a note-following player with three built-in public-domain
+opening excerpts (Ode to Joy, Für Elise and Bach’s C-major Prelude). They are
+practice excerpts, not complete editions. Load a standard format 0/1 `.mid` file
+(up to 2 MB and 20,000 notes) to practice another or a complete song. Imported
+files stay in memory on your device and are not uploaded. The part selector takes
+the highest or lowest note at each onset, or all simultaneous notes for MIDI
+chord practice; it does not identify a musical voice across overlapping tracks.
+The staff displays pitches and approximate note durations with labels, without
+reconstructing the source score’s meter, phrasing, rests, ties or full engraving.
+
+Connect a MIDI keyboard with Web MIDI, or allow microphone access for single-note
+pitch detection from C2 to C6. Microphone audio is analyzed locally with Web Audio,
+not recorded or uploaded; acoustic accuracy depends on the instrument and room.
+Unsupported APIs, denied permissions and disconnected keyboards show actionable
+messages. MIDI and microphone access require a secure origin (the public HTTPS
+site or localhost) and browser support. See [Web MIDI](https://developer.mozilla.org/en-US/docs/Web/API/Web_MIDI_API)
+and [microphone access](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia).
+
+Wait-for-note mode highlights the next note group and advances only on matching
+pitches; repeated notes require a release. Finishing an excerpt with at least 90%
+pitch accuracy (correct groups divided by groups plus wrong attacks) saves a pass
+in browser storage for built-in excerpts. Rhythm, note lengths and expression
+are not graded. Imported files are not persisted. Browser passes are separate
+from the private chat journal and do not create practice records.
+
+Verify the parser, pitch detector, repeated notes, chords, input adapters, pass
+threshold and device cleanup with `node --test tests/piano-*.test.cjs`. Synthetic
+audio and simulated MIDI verify the software; real hardware needs user testing.
