@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-07T01:13:30.887673+00:00",
+  "updatedAt": "2026-10-08T03:45:15.454216+00:00",
   "goals": {
     "height": 178,
     "weight": 79,
@@ -200,6 +200,104 @@
           "path": "photos/2026-10-06-marinated-beef-rice.png",
           "alt": "Bowl of marinated beef pieces with cooked white rice and chopsticks."
         }
+      ]
+    },
+    {
+      "id": "2026-10-07-marinated-beef-rice-01",
+      "date": "2026-10-07",
+      "mealType": "Meal",
+      "title": "Marinated beef with rice · 3 bowls",
+      "description": "User reports eating three portions like the supplied photo of beef with white rice today.",
+      "nutrition": {
+        "calories": {
+          "value": 2250,
+          "low": 1800,
+          "high": 2850,
+          "source": "estimate"
+        },
+        "protein": {
+          "value": 165,
+          "low": 135,
+          "high": 195,
+          "source": "estimate"
+        },
+        "carbs": {
+          "value": 165,
+          "low": 135,
+          "high": 195,
+          "source": "estimate"
+        },
+        "fat": {
+          "value": 102,
+          "low": 60,
+          "high": 150,
+          "source": "estimate"
+        },
+        "fiber": {
+          "value": 1.8,
+          "low": 0.9,
+          "high": 3,
+          "source": "estimate"
+        }
+      },
+      "assumptions": "Provisionally assumes each of the three bowls matches the previously reported 1 cup cooked rice and two hand-sized portions of marinated beef (roughly 200 g cooked beef per bowl). The current photo is consistent with beef and rice, but portions, cut, oil and marinade are unmeasured. User has not yet confirmed these portion assumptions.",
+      "analysis": "Three bowls provide substantial protein; beef fat, marinade and portion sizes make the calorie estimate uncertain. Little fiber is visible.",
+      "suggestions": [
+        {
+          "title": "Add a vegetable side",
+          "detail": "Add broccoli, cabbage or another vegetable alongside a bowl to increase fiber and variety."
+        }
+      ],
+      "photos": [
+        {
+          "path": "photos/2026-10-07-marinated-beef-rice.png",
+          "alt": "Bowl of beef in brown sauce with white rice and chopsticks."
+        }
+      ]
+    },
+    {
+      "id": "2026-10-07-protein-01",
+      "date": "2026-10-07",
+      "mealType": "Protein shake",
+      "title": "Protein powder · 2 scoops (provisional Orgain)",
+      "description": "Two scoops of protein powder reported by the user; provisionally modeled as the previously logged Orgain Vanilla Bean powder with water.",
+      "nutrition": {
+        "calories": {
+          "value": 160,
+          "low": 160,
+          "high": 160,
+          "source": "label"
+        },
+        "protein": {
+          "value": 21,
+          "low": 21,
+          "high": 21,
+          "source": "label"
+        },
+        "carbs": {
+          "value": 21,
+          "low": 19,
+          "high": 23,
+          "source": "estimate"
+        },
+        "fat": {
+          "value": 4.5,
+          "low": 4,
+          "high": 5,
+          "source": "estimate"
+        },
+        "fiber": {
+          "value": 5,
+          "low": 5,
+          "high": 8,
+          "source": "estimate"
+        }
+      },
+      "assumptions": "Assumes the same Orgain Organic Protein + 50 Superfoods as previously logged, with water. Brand and mixing liquid have not been confirmed for today. Two scoops of that product equal one serving. Nutrition carried forward from the prior label/estimates, subject to correction.",
+      "analysis": "Provides 21 g protein for 160 kcal. Mixing with water adds no calories.",
+      "suggestions": [],
+      "sources": [
+        "https://healthcare.orgain.com/static/frontend/LeVentures/orgain/en_US/pdf/resources/Orgain_Product_Guide_WEB_082720.pdf"
       ]
     }
   ],
