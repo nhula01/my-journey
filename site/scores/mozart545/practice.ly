@@ -316,7 +316,7 @@ stvlh = {
 \score { \unfoldRepeats 
   \new PianoStaff <<
     \new Staff { 
-      \override Fingering.avoid-slur = #'inside
+      \override Fingering.avoid-slur = #'outside
       \keepWithTag #'first
       \repeat volta 2 { \ptrh \strh } \break 
       \repeat volta 2 {
@@ -330,7 +330,7 @@ stvlh = {
       }
     }
     \new Staff { 
-      \override Fingering.avoid-slur = #'inside
+      \override Fingering.avoid-slur = #'outside
       \repeat volta 2 { \ptlh \stlh } 
       \repeat volta 2 {
 	\dvlh 
