@@ -11,14 +11,14 @@ src=Path(sys.argv[1] if len(sys.argv)>1 else '/tmp/journey-sheets')
 ns='{http://www.w3.org/2000/svg}'
 pages=[];systems=[]
 for file in sorted(src.glob('practice-*.svg'),key=lambda p:int(p.stem.split('-')[-1])):
- svg=file.read_text();root=ET.fromstring(svg);page=len(pages);notes=[];lines=[]
+ svg=file.read_text();root=ET.fromstring(svg);page=len(pages);notes=[];lines=[];edges={}
  for g in root:
   if g.get('class')=='score-note' and g.find(ns+'g') is not None:
    t=g.find(ns+'g').get('transform');x,y=map(float,re.findall(r'[-\d.]+',t));notes.append({'beat':float(g.get('data-beat')),'midi':int(g.get('data-midi')),'x':x,'y':y})
   else:
    line=g.find(ns+'line');trans=g.get('transform','')
    if line is not None and abs(float(line.get('x2','0'))-float(line.get('x1','0')))>70 and 'translate' in trans:
-    x,y=map(float,re.findall(r'[-\d.]+',trans));lines.append(y)
+    x,y=map(float,re.findall(r'[-\d.]+',trans));lines.append(y);edges[y]=(x+float(line.get('x1','0')),x+float(line.get('x2','0')))
  lines=sorted(set(lines));staffs=[]
  for y in lines:
   if not staffs or y-staffs[-1][-1]>1.1:staffs.append([y])
@@ -40,8 +40,9 @@ for file in sorted(src.glob('practice-*.svg'),key=lambda p:int(p.stem.split('-')
    if transforms:
     coords=re.findall(r'[-\d.]+',transforms[0]);cy=float(coords[1])
     if not y0-1<=cy<=y1+1:cropped.remove(child)
-  cropped.set('viewBox',f'0 {y0} 119.5016 {y1-y0}')
-  systems.append({'svg':ET.tostring(cropped,encoding='unicode'),'page':page,'y':y0,'height':y1-y0,'start':int(min(positions)//2)*2,'positions':sorted([[b,x] for b,x in positions.items()]),'width':119.5016})
+  left,right=edges[staffs[i*2][0]]
+  cropped.set('viewBox',f'{left} {y0} {right-left} {y1-y0}')
+  systems.append({'svg':ET.tostring(cropped,encoding='unicode'),'page':page,'y':y0,'height':y1-y0,'staffTop':staffs[i*2][0]-y0,'start':int(min(positions)//2)*2,'positions':sorted([[b,x-left] for b,x in positions.items()]),'width':right-left})
 for i,s in enumerate(systems):s['end']=systems[i+1]['start'] if i+1<len(systems) else 304
 assert systems[0]['start']==0 and all(s['start']<s['end'] for s in systems)
 out={'pages':pages,'systems':systems,'source':'Mutopia original 1902 edition; repeats unfolded for practice','version':1}
