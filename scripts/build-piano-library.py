@@ -1,7 +1,8 @@
 import pathlib,json,re,xml.etree.ElementTree as ET,copy,subprocess,shutil,sys,hashlib
-root=pathlib.Path(sys.argv[1] if len(sys.argv)>1 else '/tmp/journey-library');choices=json.loads(pathlib.Path('scripts/piano-library-sources.json').read_text());ns='{http://www.w3.org/2000/svg}';ET.register_namespace('',ns[1:-1]);ET.register_namespace('xlink','http://www.w3.org/1999/xlink')
+root=pathlib.Path(sys.argv[1] if len(sys.argv)>1 else '/tmp/journey-library');choices=json.loads(pathlib.Path(sys.argv[2] if len(sys.argv)>2 else 'scripts/piano-library-sources.json').read_text());ns='{http://www.w3.org/2000/svg}';ET.register_namespace('',ns[1:-1]);ET.register_namespace('xlink','http://www.w3.org/1999/xlink')
 titles={'minuet':('Minuet in G major, BWV Anh. 114','Christian Petzold'),'melody':('Melody, Op. 68 No. 1','Robert Schumann'),'wild-rider':('The Wild Rider, Op. 68 No. 8','Robert Schumann'),'happy-farmer':('The Happy Farmer, Op. 68 No. 10','Robert Schumann'),'innocence':('Innocence, Op. 100 No. 1','Friedrich Burgmüller'),'arabesque':('Arabesque, Op. 100 No. 2','Friedrich Burgmüller'),'ballade':('Ballade, Op. 100 No. 15','Friedrich Burgmüller'),'clementi':('Sonatina in C, Op. 36 No. 1 · all three movements','Muzio Clementi'),'prelude':('Prelude in C major, BWV 846','Johann Sebastian Bach'),'fur':('Für Elise · complete','Ludwig van Beethoven'),'gymnopedie':('Gymnopédie No. 1','Erik Satie'),'chopin-prelude':('Prelude in E minor, Op. 28 No. 4','Frédéric Chopin'),'invention1':('Invention No. 1 in C, BWV 772','Johann Sebastian Bach'),'mozart545':('Sonata in C, K. 545 · first movement','Wolfgang Amadeus Mozart'),'clair':('Clair de lune','Claude Debussy'),'nocturne':('Nocturne in E-flat, Op. 9 No. 2','Frédéric Chopin'),'traumerei':('Träumerei, Op. 15 No. 7','Robert Schumann'),'pathetique':('Pathétique Sonata · second movement','Ludwig van Beethoven'),'revolutionary':('Revolutionary Étude, Op. 10 No. 12','Frédéric Chopin'),'czerny':('Eight-measure study, Op. 821 No. 1','Carl Czerny'),'fugue':('Fugue in C major, BWV 846','Johann Sebastian Bach'),'etude9':('Étude in F minor, Op. 10 No. 9','Frédéric Chopin')}
 titles.update({'ode':('Ode to Joy · theme arrangement','Ludwig van Beethoven'),'twinkle':('Twinkle, Twinkle · learning arrangement','Traditional'),'frere':('Frère Jacques · learning arrangement','Traditional')})
+titles.update({"pastoral":("La Pastorale, Op. 100 No. 3","Friedrich Burgmüller"),"reunion":("La Petite Réunion, Op. 100 No. 4","Friedrich Burgmüller")})
 manifest={}
 for id,path in choices.items():
  d=root/id;dest=pathlib.Path('site/scores')/id;
@@ -77,8 +78,8 @@ for id,path in choices.items():
  for note in notes:
   candidates=hands.get((round(note['beat'],5),note['midi']),set())
   if len(candidates)==1:note['hand']=next(iter(candidates))
- title,composer=titles[id];copyright=meta('license') or meta('copyright');number=re.search(r'Mutopia-\d{4}/\d{2}/\d{2}-(\d+)',src);url='https://www.mutopiaproject.org/cgibin/piece-info.cgi?id='+number[1] if number else 'https://www.mutopiaproject.org/ftp/'+str(pathlib.Path(path).parent)+'/'
- if id in ['ode','twinkle','frere']:url=f'scores/{id}/original.ly'
+ title,composer=titles.get(id,(meta("title"),meta("composer")));copyright=meta('license') or meta('copyright');number=re.search(r'Mutopia-\d{4}/\d{2}/\d{2}-(\d+)',src);url='https://www.mutopiaproject.org/cgibin/piece-info.cgi?id='+number[1] if number else 'https://www.mutopiaproject.org/ftp/'+str(pathlib.Path(path).parent)+'/'
+ if path.startswith('Learning/'):url=f'scores/{id}/original.ly'
  fingers=sum(p['svg'].count('source-fingering') for p in pages)
  original=dest/'original';original.mkdir(exist_ok=True);subprocess.run(['pdftoppm','-scale-to','1400','-jpeg',str(dest/'original.pdf'),str(original/'page')],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
  # Normalize Poppler's padded multi-digit page names.
@@ -89,7 +90,7 @@ for id,path in choices.items():
   if any(start<=n['beat']<start+meter*8 for n in notes):sections.append({'id':f'block-{start}','title':f'Practice block {len(sections)+1}','start':start,'end':min(end,start+meter*8)})
  if len(midi)>1:sections=[{'id':f'movement-{j+1}','title':f'Movement {j+1}','start':offsets[j],'end':offsets[j]+lengths[j]} for j in range(len(midi))]+sections
  info={'id':id,'title':title,'composer':composer,'caption':'Complete practice score'+(' · three movements' if len(midi)>1 else '')+' · repeats unfolded','sourceURL':url,'pdf':f'scores/{id}/original.pdf','midi':f'scores/{id}/practice.midi','originalPages':count,'folder':f'scores/{id}','sourceFingering':fingers>0,'attribution':composer+' · Mutopia · '+meta('maintainer')+' · '+copyright,'beatsPerMeasure':meter}
- if id in ['ode','twinkle','frere']:info['caption']='Complete learning arrangement of the public-domain melody · simple two-hand accompaniment';info['attribution']=composer+' · My Journey learning arrangement · CC0 1.0'
+ if path.startswith('Learning/'):info['caption']='Complete learning arrangement of the public-domain melody · simple two-hand accompaniment';info['attribution']=composer+' · My Journey learning arrangement · CC0 1.0'
  head_keys={(round(n['beat'],5),n['midi']) for page in pages for n in page['notes']}
  assert all((round(n['beat'],5),n['midi']) in head_keys for n in notes),f'{id}: an attack is missing from the engraving'
  scroll_keys=set()
@@ -109,4 +110,4 @@ for id,path in choices.items():
  version=hashlib.sha256((dest/'practice.json').read_bytes()).hexdigest()[:12]
  manifest[id]={**info,'dataURL':f'scores/{id}/practice.json?v={version}','multiMovement':len(midi)>1}
  print(id,len(notes),len(pages),'pages',fingers,'fingerings',flush=True)
-pathlib.Path('site/piano-library.js').write_text('/* Complete scores, fetched locally only when selected. */\nObject.assign(window.PianoRepertoire,'+json.dumps(manifest,separators=(',',':'))+');\n')
+pathlib.Path(sys.argv[3] if len(sys.argv)>3 else 'site/piano-library.js').write_text('/* Complete scores, fetched locally only when selected. */\nObject.assign(window.PianoRepertoire,'+json.dumps(manifest,separators=(',',':'))+');\n')

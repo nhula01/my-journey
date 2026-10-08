@@ -1,0 +1,24 @@
+# Piano study pathway
+
+Research checked October 8, 2026 against Piano Marvel's own public explanations:
+
+- [Dashboard](https://pianomarvel.com/en/feature/dashboard): separate Library, Method, Technique and Sight Reading areas; 600 exercises in each of Method and Technique.
+- [Teacher certification](https://pianomarvel.com/en/courses/teacher-certification-course): reading, technique, scales/arpeggios and breaking a passage into smaller practice groups are complementary activities.
+- [Preparation for Recitals](https://pianomarvel.com/en/article/preparation-for-recitals), Evelyn Billberg: practice the key's scales, chords and arpeggios in preparation for a piece, and develop recovery through uninterrupted performances.
+- [Sight-reading assessment](https://pianomarvel.com/en/article/the-ultimate-sight-reading-test), Heidi Garner: advance preview, counted entry, continuous performance and fresh material. Their 90 difficulty buckets and calibrated SASR ranking belong to their assessment; our tasks are independently authored, approximate exercises, without standardized rankings.
+
+Our seven repertoire levels now have five original method/technique units each. They cover pulse and intervals, articulation and positions, major/minor triads and inversions, arpeggios and dominant sevenths, harmonic minor and voice leading, syncopation/counterpoint/secondary dominants, and voicing/structure/performance. Each unit names a complete playable piece and a self-check. Advanced repertoire does not imply advanced sight reading, so reading tasks have a separate selector.
+
+The harmony laboratory spells all twelve major and twelve natural-minor scales diatonically (including necessary double flats), demonstrates major/minor thirds, relative versus parallel keys, and I–IV–V7 / i–iv–V7 harmony. In minor it explicitly explains the raised leading tone of the major dominant. Samples use the existing local acoustic grand piano. The accompanying 24 original two-hand eight-bar studies connect melodic fragments with cadences. They are complete studies, not fragments of famous pieces. They do not add fingering numbers.
+
+Fourteen complete original first-reading miniatures provide two distinct tasks at each of seven rough reading levels. Opening a score marks it seen, including a selection through the main player. The picker excludes seen material and reports exhaustion honestly; it cannot claim unlimited fresh reading. Open the score, scan without rehearsal, connect MIDI, and use the moving-sheet assessment for one uninterrupted attempt. Reopening a known piece is labeled rehearsal. Pitch/timing results do not assess musical phrasing or held-note duration; level advancement remains a self-check. Nothing writes to the user's learning journal automatically.
+
+Two additional complete public-domain Burgmüller works fill compound-meter and paired-note gaps: [La Pastorale, Op.100 No.3](https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=218) and [La Petite Réunion, Op.100 No.4](https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=219), typeset by Bas Wassink. Original PDFs/sources remain intact; practice versions unfold repeats and retain printed fingerings. No Piano Marvel lesson, arrangement or SASR test item is copied.
+
+## Rebuilding
+
+The original repertoire remains in `piano-library.js`; additions and original studies are separate manifests loaded into the same player. New source manifests can be passed to `read-piano-library-midi.cjs ROOT SOURCES` and `build-piano-library.py ROOT SOURCES OUTPUT`. This keeps existing library builds unchanged.
+
+`python3 scripts/build-piano-studies.py /path/to/lilypond` regenerates all 38 original studies, source PDFs, MIDI, tagged notation and content-hashed lazy-load manifest. Requires LilyPond 2.24, Node, Python and Poppler. All original studies are released as CC0 1.0. Individual repertoire README files retain the source license and attribution.
+
+Build checks reject compilation errors, missing attacks in whole-page or moving notation, and incomplete timelines. Tests compare downloaded MIDI with practice data and ensure eight complete bars, both hands and no generated fingerings for all original studies. Browser QA checks key spelling, loading, source images, first-reading seen state and the sampled audio controls.
