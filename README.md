@@ -204,3 +204,10 @@ for this build) and `site/scores/entertainer/practice.ly`, using SVG backend and
 /path/to/svg-output-directory`. Original JPEG previews are rendered directly
 from the unchanged PDF with Poppler. The compiled artifacts are bundled so
 visitors need neither LilyPond nor an online engraving service.
+
+The hand coach now plans consecutive notes and chords together for the full score,
+with consistent assignments across practice sections and advance finger/key cues.
+Selected visually checked Roger Galloway fingerings are marked •, with the
+CC BY-SA 4.0 fingered PDF and attribution bundled alongside the original score.
+Other assignments are generated suggestions. A sixth/octave reach selector
+leaves difficult shapes for review rather than forcing a finger assignment.

@@ -23,34 +23,56 @@ function groups(notes,voice='melody'){
  const events=[];for(const n of selected){let last=events[events.length-1];if(!last||Math.abs(last.beat-n.beat)>.025){last={beat:n.beat,notes:[],members:[],duration:n.duration};events.push(last);}last.notes.push(n.midi);last.members.push(n);last.duration=Math.max(last.duration,n.duration);}
  return events.map(e=>({...e,notes:['melody','rightMelody'].includes(voice)?[Math.max(...e.notes)]:['bass','leftBass'].includes(voice)?[Math.min(...e.notes)]:[...new Set(e.notes)].sort((a,b)=>a-b)}));
 }
-// Practical starting suggestions, not an editorial fingering of the source score.
-function recommendFingering(events,hand='right'){
- const black=n=>[1,3,6,8,10].includes(n%12),orient=f=>hand==='right'?f:6-f;
- const result=events.map(()=>({fingers:{},warning:''}));
- const singles=[];
+// Plan each hand through all attacks, including chords and overlapping held notes.
+// The cost model is a suggestion; editorial anchors are identified separately.
+function recommendFingering(events,hand='right',options={}){
+ const black=n=>[1,3,6,8,10].includes(n%12),orient=f=>hand==='right'?f:6-f,span=options.span??12;
+ const result=events.map(()=>({fingers:{},warning:'',source:'generated',move:null}));
+ const items=[];let held=[];
  events.forEach((e,index)=>{
-  const notes=e.notes.filter(n=>!e.members?.length||e.members.some(m=>m.midi===n&&m.hand===hand));
-  if(!notes.length)return;
-  if(notes.length===1){singles.push({index,note:notes[0]});return;}
-  if(notes.length>5||notes.at(-1)-notes[0]>12){result[index].warning='Wide chord: plan a comfortable redistribution with a teacher; no forced stretch suggested.';return;}
-  // Enumerate ordered finger choices; avoid thumb on black keys where feasible.
-  let best,cost=Infinity;
-  function choose(chosen,start){if(chosen.length===notes.length){let score=0;chosen.forEach((f,i)=>{if(black(notes[i])&&f===1)score+=3;if(i){const spread=notes[i]-notes[i-1],steps=Math.abs(f-chosen[i-1]);score+=Math.abs(spread/2-steps);if(spread>steps*3+2)score+=8;}});if(score<cost){cost=score;best=chosen;}return;}for(let x=start;x<=5-(notes.length-chosen.length-1);x++)choose([...chosen,hand==='right'?x:6-x],x+1);}
-  choose([],1);notes.forEach((n,i)=>result[index].fingers[n]=best[i]);
+  const attack=[...new Set(e.notes.filter(n=>!e.members?.length||e.members.some(m=>m.midi===n&&m.hand===hand)))].sort((a,b)=>a-b);
+  if(!attack.length)return;
+  const beat=e.beat??index;held=held.filter(n=>n.end>beat+.001&&!attack.includes(n.midi));
+  const notes=[...new Set([...held.map(n=>n.midi),...attack])].sort((a,b)=>a-b),anchor=options.anchors?.[beat]?.[hand]||{};
+  const candidates=[];
+  function choose(fs,start){if(fs.length===notes.length){const map=Object.fromEntries(notes.map((n,i)=>[n,fs[i]]));if(Object.entries(anchor).some(([n,f])=>notes.includes(Number(n))&&map[n]!==f))return;
+   let cost=0;for(let i=0;i<notes.length;i++){if(black(notes[i])&&fs[i]===1)cost+=1.5;if(i){const gap=notes[i]-notes[i-1],steps=Math.abs(fs[i]-fs[i-1]);cost+=Math.abs(gap-steps*2)*.25;if(gap>steps*3+2)cost+=6;}}
+   const bases=notes.map((n,i)=>n-2*(orient(fs[i])-1)),base=bases.reduce((a,b)=>a+b,0)/bases.length;
+   candidates.push({map,base,cost});return;}
+   for(let f=start;f<=5-(notes.length-fs.length-1);f++)choose([...fs,hand==='right'?f:6-f],f+1);
+  }
+  if(notes.length<=5&&notes.at(-1)-notes[0]<=span)choose([],1);
+  items.push({index,beat,attack,notes,held:held.map(n=>n.midi),candidates});
+  for(const midi of attack){const member=e.members?.find(n=>n.midi===midi&&(!n.hand||n.hand===hand));held.push({midi,end:beat+(member?.duration??e.duration??.25)});}
  });
- // Melody: choose fingers together across successive notes, allowing hand shifts.
- const layers=[];
- singles.forEach((item,i)=>{const row=[];for(let finger=1;finger<=5;finger++){const base=black(item.note)&&(finger===1||finger===5)?2:0;let best=Infinity,previous=0;
-  if(!i){best=base+Math.abs(orient(finger)-3)*.2;}else for(let prev=1;prev<=5;prev++){const jump=item.note-singles[i-1].note,move=orient(finger)-orient(prev);let c;
-   if(jump===0)c=finger===prev?0:2;
-   else if(Math.abs(jump)>7)c=2+Math.abs(orient(finger)-3)*.2; // move the hand, avoid reaching
-   else if(jump*move>0)c=Math.abs(Math.abs(jump)/2-Math.abs(move))*.6;
-   else if(move===0)c=3+Math.abs(jump)*.4;
-   else {const crossing=jump>0?orient(finger)===1:orient(prev)===1;c=crossing?2.5:6;}
-   const total=layers[i-1][prev-1].cost+c+base;if(total<best){best=total;previous=prev;}}
-  row.push({cost:best,previous});}layers.push(row);});
- if(singles.length){let finger=layers.at(-1).reduce((best,x,i,row)=>x.cost<row[best-1].cost?i+1:best,1);for(let i=singles.length-1;i>=0;i--){result[singles[i].index].fingers[singles[i].note]=finger;finger=layers[i][finger-1].previous;}}
- return result;
+ let layers=[];
+ function finish(){if(!layers.length)return;let node=layers.at(-1).reduce((a,b)=>a.total<b.total?a:b);while(node){const {item,candidate,move}=node,h=result[item.index];h.fingers=Object.fromEntries(item.attack.map(n=>[n,candidate.map[n]]));h.source=Object.keys(options.anchors?.[item.beat]?.[hand]||{}).some(n=>item.attack.includes(Number(n)))?'editorial + generated':'generated';h.editorial=options.anchors?.[item.beat]?.[hand]||{};if(move){const n=item.attack.find(n=>candidate.map[n]===1)??item.attack[hand==='right'?0:item.attack.length-1];h.move={kind:move,midi:n,finger:candidate.map[n]};}node=node.previous;}layers=[];}
+ for(const item of items){if(!item.candidates.length){finish();result[item.index].warning='This shape exceeds the selected reach or needs a different hand distribution. No fingering is forced.';continue;}
+  const previous=layers.at(-1);let row=[];
+  for(const c of item.candidates){let best=null;
+   if(!previous)best={total:c.cost,previous:null,move:'Place'};
+   else for(const p of previous){if(item.held.some(n=>p.candidate.map[n]!==undefined&&p.candidate.map[n]!==c.map[n]))continue;
+    const rest=item.beat-p.item.beat>2,delta=Math.abs(c.base-p.candidate.base);let cost=rest?0:delta*.4,move=rest||delta>3?'Move':null;
+    for(const n of item.attack){const prevNotes=p.item.attack;const nearest=prevNotes.reduce((a,b)=>Math.abs(b-n)<Math.abs(a-n)?b:a,prevNotes[0]),pf=p.candidate.map[nearest],cf=c.map[n],jump=n-nearest,direction=orient(cf)-orient(pf);
+     if(jump===0&&cf!==pf)cost+=2;
+     else if(jump!==0&&direction===0)cost+=2;
+     else if(jump*direction<0){const crossing=hand==='right'?(jump>0?cf===1:pf===1):(jump>0?pf===1:cf===1);cost+=crossing?1.5:5;if(crossing&&!move)move='Cross';}
+    }
+    const total=p.total+c.cost+cost;if(!best||total<best.total)best={total,previous:p,move};
+   }
+   if(best)row.push({...best,item,candidate:c});
+  }
+  if(!row.length){finish();result[item.index].warning='Held notes prevent a comfortable finger assignment. Review the hand distribution.';continue;}
+  layers.push(row);
+ }
+ finish();return result;
+}
+function fingeringCue(events,hints,hand,index,beat=null){
+ const at=beat??events[Math.min(index,events.length-1)]?.beat??0;
+ let current=-1;for(let i=0;i<events.length;i++){if(events[i].beat>at)break;if(Object.keys(hints[i]?.fingers||{}).length||hints[i]?.warning)current=i;}
+ const next=events.findIndex((e,i)=>e.beat>at&&e.beat<=at+2&&hints[i]?.move);
+ const describe=(i)=>{const h=hints[i],name=hand==='right'?'Right':'Left';if(h.warning)return name+': '+h.warning;return name+': '+Object.entries(h.fingers).map(([n,f])=>(f===1?'thumb':'finger '+f)+' → '+noteName(Number(n))).join(' · ');};
+ return {current:current<0?'':describe(current),next:next<0?'':`Prepare in ${Math.round((events[next].beat-at)*100)/100} beats: ${hand==='right'?'right':'left'} ${hints[next].move.finger===1?'thumb':'finger '+hints[next].move.finger} → ${noteName(hints[next].move.midi)} (${hints[next].move.kind.toLowerCase()})`};
 }
 class Matcher{
  constructor(events){this.events=events;this.index=0;this.errors=0;this.held=new Set();this.releaseRequired=new Set();}
@@ -63,5 +85,5 @@ class TimedMatcher {
  input(midi,on,seconds){if(!on){this.held.delete(midi);return 'release';}if(this.held.has(midi))return 'held';this.held.add(midi);this.advance(seconds);let best=-1,distance=Infinity;this.events.forEach((e,i)=>{const d=Math.abs(seconds-this.due(i));if(this.states[i]==='pending'&&e.notes.includes(midi)&&!this.hits[i].has(midi)&&d<=this.window&&d<distance){best=i;distance=d;}});if(best<0){this.errors++;return 'wrong';}this.hits[best].add(midi);if(this.events[best].notes.every(n=>this.hits[best].has(n)))this.states[best]='hit';return this.states[best]==='hit'?'correct':'partial';}
  result(){const hit=this.states.filter(s=>s==='hit').length,missed=this.states.filter(s=>s==='missed').length,total=this.events.length;return {hit,missed,total,errors:this.errors,accuracy:Math.floor(100*hit/(total+this.errors)),complete:hit+missed===total};}
 }
-const api={noteName,pitch,parseMidi,groups,recommendFingering,Matcher,TimedMatcher};if(typeof module!=='undefined')module.exports=api;else root.PianoEngine=api;
+const api={noteName,pitch,parseMidi,groups,recommendFingering,fingeringCue,Matcher,TimedMatcher};if(typeof module!=='undefined')module.exports=api;else root.PianoEngine=api;
 })(typeof window!=='undefined'?window:globalThis);
