@@ -10,17 +10,11 @@ selected fingerings at the first A-section opening and the two ascending
 right-hand figures in the first B section (performed measures 39–40). These were visually checked
 against this scan and matched by pitch and beat to the bundled Mutopia MIDI.
 This transcription is a derivative under CC BY-SA 4.0, credited to Galloway.
-Numbers on other notes are generated suggestions, not Galloway's annotations.
-The original PDF remains unchanged. The editor also suggests some different
-hand distributions later in the piece; these have not been applied to the MIDI.
+Only these checked annotations appear in the interactive overlay. Repeated
+passages reuse the same printed annotations. Untranscribed notes stay blank.
+This transcription is a derivative under CC BY-SA 4.0, credited to Galloway.
+The four-page viewer displays the complete annotated edition directly, with
+all original annotations. The PDF remains unchanged.
 
-The planner considers consecutive single notes and chords together, preserves
-finger assignments for overlapping held notes, and uses the selected reach.
-It generates a full-score plan before filtering a practice section or voice,
-so changing a practice section does not reassign the same notes. A shape that
-exceeds the reach, requires more than five fingers or conflicts with held notes
-gets a review message rather than an impossible assignment. Generated advice
-is not teacher-verified and can be adjusted to the player's hands.
-
-The hand coach names the current keys and fingers and previews a position move
-up to two beats ahead. MIDI and microphone input assess pitch, not finger usage.
+No automatically generated fingerings, position cues, reach selector or
+keyboard finger-number overlay are displayed.
