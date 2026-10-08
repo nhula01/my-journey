@@ -20,11 +20,18 @@ const COMPOSERS = {
   'Friedrich Burgmüller': { years: '1806–1874', era: 'Romantic', img: W + '1/1d/Friedrich_Burgm%C3%BCller.jpg/500px-Friedrich_Burgm%C3%BCller.jpg' },
   'Frédéric Chopin': { years: '1810–1849', era: 'Romantic', img: W + 'e/e8/Frederic_Chopin_photo.jpeg/500px-Frederic_Chopin_photo.jpeg' },
   'Robert Schumann': { years: '1810–1856', era: 'Romantic', img: W + 'f/fa/Robert_Schumann_1839.jpg/500px-Robert_Schumann_1839.jpg' },
+  'Franz Schubert': { years: '1797–1828', era: 'Romantic', img: W + '0/0d/Franz_Schubert_by_Wilhelm_August_Rieder_1875.jpg/500px-Franz_Schubert_by_Wilhelm_August_Rieder_1875.jpg' },
+  'Franz Liszt': { years: '1811–1886', era: 'Romantic', img: W + '0/0d/Franz_Liszt_by_Herman_Biow-_1843.png/500px-Franz_Liszt_by_Herman_Biow-_1843.png' },
+  'Johannes Brahms': { years: '1833–1897', era: 'Romantic', img: W + 'c/cc/JohannesBrahms_%28cropped%29.jpg/500px-JohannesBrahms_%28cropped%29.jpg' },
+  'Edvard Grieg': { years: '1843–1907', era: 'Romantic', img: W + '5/50/Edvard_Grieg_portrait_%28cropped%29.jpg/500px-Edvard_Grieg_portrait_%28cropped%29.jpg' },
+  'Sergei Rachmaninoff': { years: '1873–1943', era: 'Late Romantic', img: W + 'b/be/Sergei_Rachmaninoff_cph.3a40575.jpg/500px-Sergei_Rachmaninoff_cph.3a40575.jpg' },
   'Claude Debussy': { years: '1862–1918', era: 'Impressionist', img: W + 'c/c3/Claude_Debussy_by_Atelier_Nadar.jpg/500px-Claude_Debussy_by_Atelier_Nadar.jpg' },
   'Erik Satie': { years: '1866–1925', era: 'Modern', img: W + '5/58/Ericsatie.jpg/500px-Ericsatie.jpg' },
   'Scott Joplin': { years: 'c. 1868–1917', era: 'Ragtime', img: W + '6/68/Scott_Joplin_in_1912.jpg/500px-Scott_Joplin_in_1912.jpg' },
   'Folk songs': { years: 'Traditional', era: 'First tunes', folk: true }
 };
+// Well-known concert pieces, shown first in the library.
+const FAMOUS = ['fur', 'moonlight', 'fantaisie-impromptu', 'clair', 'alla-turca', 'nocturne', 'minute-waltz', 'entertainer', 'rach-prelude', 'maple-leaf', 'gymnopedie', 'mountain-king', 'raindrop', 'revolutionary', 'arabesque1', 'gnossienne1', 'traumerei', 'impromptu-gflat', 'consolation3', 'brahms-waltz', 'prelude', 'pathetique'];
 const slug = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const initials = name => name.split(/\s+/).filter(w => /^[A-ZÀ-Ý]/.test(w)).map(w => w[0]).slice(0, 2).join('');
 const lastName = name => name === 'Folk songs' ? 'Folk songs' : name.split(' ').slice(-1)[0];
@@ -185,6 +192,13 @@ function renderBrowse() {
     sec.append(el('h2', found.length ? `${found.length} ${found.length === 1 ? 'piece' : 'pieces'} found` : 'No pieces match. Try a composer, title or skill.', 'shelf-title'));
     const grid = el('div', undefined, 'tiles wrap'); found.forEach(p => grid.append(pieceCard(p))); sec.append(grid); shelves.append(sec); return;
   }
+  const famous = FAMOUS.map(id => pieces.find(p => p.id === id)).filter(Boolean);
+  if (famous.length) {
+    const sec = el('section', undefined, 'shelf'); sec.id = 'shelf-famous';
+    const head = el('div', undefined, 'shelf-head'); head.append(el('h2', 'Famous pieces', 'shelf-title'), el('p', 'Complete scores of the classics', 'shelf-sub'));
+    const grid = el('div', undefined, 'tiles'); famous.forEach(p => grid.append(pieceCard(p)));
+    sec.append(head, grid); shelves.append(sec);
+  }
   for (const l of levels) {
     const list = pieces.filter(p => p.level === l.id); if (!list.length) continue;
     const name = levelName(l.id), sec = el('section', undefined, 'shelf'); sec.id = 'shelf-' + l.id;
@@ -274,7 +288,7 @@ function arrangePractice() {
 function syncPracticeTitle() {
   const sel = $('.practice-bar select'), h = $('#practice-title'); if (!sel || !h) return;
   const text = sel.options[sel.selectedIndex]?.textContent || 'Practice';
-  h.textContent = text.split(' · ')[0];
+  h.textContent = text.replace(/ · full piece$/, '');
 }
 
 // ---------- Small helpers ----------

@@ -3,6 +3,7 @@ root=pathlib.Path(sys.argv[1] if len(sys.argv)>1 else '/tmp/journey-library');ch
 titles={'minuet':('Minuet in G major, BWV Anh. 114','Christian Petzold'),'melody':('Melody, Op. 68 No. 1','Robert Schumann'),'wild-rider':('The Wild Rider, Op. 68 No. 8','Robert Schumann'),'happy-farmer':('The Happy Farmer, Op. 68 No. 10','Robert Schumann'),'innocence':('Innocence, Op. 100 No. 1','Friedrich Burgmüller'),'arabesque':('Arabesque, Op. 100 No. 2','Friedrich Burgmüller'),'ballade':('Ballade, Op. 100 No. 15','Friedrich Burgmüller'),'clementi':('Sonatina in C, Op. 36 No. 1 · all three movements','Muzio Clementi'),'prelude':('Prelude in C major, BWV 846','Johann Sebastian Bach'),'fur':('Für Elise · complete','Ludwig van Beethoven'),'gymnopedie':('Gymnopédie No. 1','Erik Satie'),'chopin-prelude':('Prelude in E minor, Op. 28 No. 4','Frédéric Chopin'),'invention1':('Invention No. 1 in C, BWV 772','Johann Sebastian Bach'),'mozart545':('Sonata in C, K. 545 · first movement','Wolfgang Amadeus Mozart'),'clair':('Clair de lune','Claude Debussy'),'nocturne':('Nocturne in E-flat, Op. 9 No. 2','Frédéric Chopin'),'traumerei':('Träumerei, Op. 15 No. 7','Robert Schumann'),'pathetique':('Pathétique Sonata · second movement','Ludwig van Beethoven'),'revolutionary':('Revolutionary Étude, Op. 10 No. 12','Frédéric Chopin'),'czerny':('Eight-measure study, Op. 821 No. 1','Carl Czerny'),'fugue':('Fugue in C major, BWV 846','Johann Sebastian Bach'),'etude9':('Étude in F minor, Op. 10 No. 9','Frédéric Chopin')}
 titles.update({'ode':('Ode to Joy · theme arrangement','Ludwig van Beethoven'),'twinkle':('Twinkle, Twinkle · learning arrangement','Traditional'),'frere':('Frère Jacques · learning arrangement','Traditional')})
 titles.update({"pastoral":("La Pastorale, Op. 100 No. 3","Friedrich Burgmüller"),"reunion":("La Petite Réunion, Op. 100 No. 4","Friedrich Burgmüller")})
+titles.update({"fantaisie-impromptu":("Fantaisie-Impromptu, Op. 66","Frédéric Chopin"),"minute-waltz":("Minute Waltz, Op. 64 No. 1","Frédéric Chopin"),"raindrop":("Raindrop Prelude, Op. 28 No. 15","Frédéric Chopin"),"ballade1":("Ballade No. 1 in G minor, Op. 23","Frédéric Chopin"),"moonlight":("Moonlight Sonata · first movement","Ludwig van Beethoven"),"alla-turca":("Rondo alla Turca, K. 331 · third movement","Wolfgang Amadeus Mozart"),"rach-prelude":("Prelude in C♯ minor, Op. 3 No. 2","Sergei Rachmaninoff"),"arabesque1":("Arabesque No. 1","Claude Debussy"),"maple-leaf":("Maple Leaf Rag","Scott Joplin"),"mountain-king":("In the Hall of the Mountain King · piano version","Edvard Grieg"),"gnossienne1":("Gnossienne No. 1","Erik Satie"),"impromptu-gflat":("Impromptu in G-flat, D. 899 No. 3","Franz Schubert"),"consolation3":("Consolation No. 3, S. 172","Franz Liszt"),"brahms-waltz":("Waltz in A-flat, Op. 39 No. 15","Johannes Brahms")})
 manifest={}
 for id,path in choices.items():
  d=root/id;dest=pathlib.Path('site/scores')/id;
@@ -13,8 +14,9 @@ for id,path in choices.items():
  for n in lengths[:-1]:offsets.append(offsets[-1]+n)
  notes=[]
  for j,m in enumerate(midi):
-  tracks=sorted(set(n['track'] for n in m['notes']));assert len(tracks)==2,(id,tracks)
-  for n in m['notes']:notes.append({'midi':n['midi'],'beat':n['beat']+offsets[j],'duration':n['duration'],'hand':'right' if n['track']==tracks[0] else 'left'})
+  tracks=sorted(set(n['track'] for n in m['notes']));assert len(tracks)>=2,(id,tracks)
+  # Scores with more MIDI tracks (extra staves or per-voice tracks) take every hand from the tagged engraving below.
+  for n in m['notes']:notes.append({'midi':n['midi'],'beat':n['beat']+offsets[j],'duration':n['duration'],'hand':('right' if n['track']==tracks[0] else 'left') if len(tracks)==2 else None})
  notes.sort(key=lambda n:(n['beat'],n['midi']));pages=[];systems=[];movement=0;previousStart=-1
  files=sorted(d.glob('practice*.svg'),key=lambda p:int(re.search(r'-(\d+)\.svg$',p.name)[1]) if re.search(r'-(\d+)\.svg$',p.name) else 0)
  for file in files:
@@ -74,11 +76,13 @@ for id,path in choices.items():
  hands={}
  for p in pages:
   for head in p['notes']:
-   if head.get('hand'):hands.setdefault((round(head['beat'],5),head['midi']),set()).add(head['hand'])
+   if head.get('hand'):hands.setdefault((round(head['beat'],5),head['midi']),[]).append(head['hand'])
  for note in notes:
-  candidates=hands.get((round(note['beat'],5),note['midi']),set())
-  if len(candidates)==1:note['hand']=next(iter(candidates))
- title,composer=titles.get(id,(meta("title"),meta("composer")));copyright=meta('license') or meta('copyright');number=re.search(r'Mutopia-\d{4}/\d{2}/\d{2}-(\d+)',src);url='https://www.mutopiaproject.org/cgibin/piece-info.cgi?id='+number[1] if number else 'https://www.mutopiaproject.org/ftp/'+str(pathlib.Path(path).parent)+'/'
+  candidates=hands.get((round(note['beat'],5),note['midi']),[])
+  if len(set(candidates))==1:note['hand']=candidates[0]
+  elif note['hand'] is None and candidates:note['hand']=candidates.pop(0)  # unison in both hands: one note per engraved head
+ assert all(n['hand'] for n in notes),f'{id}: a note has no hand assignment'
+ title,composer=titles.get(id,(meta("title"),meta("composer")));copyright=meta('license') or meta('mutopiacopyright') or meta('copyright');number=re.search(r'Mutopia-\d{4}/\d{2}/\d{2}-(\d+)',src);url='https://www.mutopiaproject.org/cgibin/piece-info.cgi?id='+number[1] if number else 'https://www.mutopiaproject.org/ftp/'+str(pathlib.Path(path).parent)+'/'
  if path.startswith('Learning/'):url=f'scores/{id}/original.ly'
  fingers=sum(p['svg'].count('source-fingering') for p in pages)
  original=dest/'original';original.mkdir(exist_ok=True);subprocess.run(['pdftoppm','-scale-to','1400','-jpeg',str(dest/'original.pdf'),str(original/'page')],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
