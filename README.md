@@ -161,12 +161,9 @@ rather than cutting off after 48 groups. Reconnecting an input resumes the curre
 attempt; Restart practice explicitly clears it. Passes are stored per part and
 section so a section pass does not imply passing the whole piece.
 
-Recommend fingering is an optional generated overlay: R/L identify the hand and
-1–5 identify thumb through little finger. Melody suggestions use note sequence and
-hand direction; chord suggestions use ordered finger combinations. They are not
-editorial fingerings from Mutopia/Joplin or individualized teacher advice. Chords
-wider than an octave or with more than five notes receive no automatic fingering.
-Imported scores without hand assignments use the selected fingering hand.
+The optional fingering overlay copies checked annotations from Roger Galloway’s
+fingered edition. The complete annotated PDF is also available. Untranscribed
+notes stay blank; no generated fingering or hand-position coaching is added.
 
 ## Two-hand engraved score and moving-sheet practice
 
@@ -209,3 +206,38 @@ Fingering displays only Roger Galloway's annotations. The four-page viewer shows
 the complete CC BY-SA 4.0 fingered edition. The interactive overlay contains the
 selected checked transcription; untranscribed notes stay blank. No generated
 fingerings, movement coach or extra keyboard finger labels are shown.
+
+
+The piano repertoire now has 26 playable selections across seven approximate study levels,
+from simple two-hand learning arrangements to concert repertoire. Each level
+covers technique, reading, listening, common harmony and readiness checks. Each
+piece has prerequisites, a transferable pattern, a focused exercise and five
+self-checks. These are authored learning suggestions, not official exam grades
+or professional certification. Self-checks use a separate browser storage key;
+they do not alter the chat learning journal or its selected piece.
+
+25 newly bundled complete practice scores load on selection, alongside The
+Entertainer. Sheet mode and moving mode use the engraved score, both hands,
+local MIDI/microphone input and the sampled grand piano. Original PDF pages and
+source files are bundled with attribution and licensing in each score folder.
+Printed fingerings remain as provided by each edition; editions with no
+fingerings are identified, and no generated fingerings are added. Ode to Joy,
+Twinkle, Twinkle and Frère Jacques are explicitly identified as simple learning
+arrangements, rather than original piano compositions.
+
+To regenerate the library, copy each bundled `practice.ly` and `original.ly` into
+an output directory named for its piece id. Compile `practice.ly` there using
+LilyPond 2.24.4 with `-dbackend=svg -dno-point-and-click -o practice`. Then run
+`node scripts/read-piano-library-midi.cjs OUTPUT_DIRECTORY` and
+`python3 scripts/build-piano-library.py OUTPUT_DIRECTORY` from the repository.
+The builder keeps source fingerings, maps MIDI grace timing to the corresponding
+engraved heads, and retains source voice ownership for cross-staff hand
+assignments. Clementi’s three movements are concatenated for the player and
+combined MIDI, with individual movement files also retained.
+
+Earlier Moonlight and A-minor Waltz lessons remain clearly labeled study references,
+with source links and no bundled practice-player claim.
+
+Full-score playback preserves leading and trailing rests and each movement’s
+complete MIDI timeline. Note assessment still grades attacks, not sustained
+release length, pedal or musical expression.

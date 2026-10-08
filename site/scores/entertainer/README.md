@@ -12,8 +12,9 @@ derived from the MIDI; written repeats are unfolded. The second B pass follows
 the published MIDI; it is not automatically transposed for the score's “Repeat
 8va” instruction. Printed measure mapping comes from the LilyPond source.
 Hand assignments follow MIDI staffs except for the intro’s cross-staff voices,
-which are split according to the source. Fingering suggestions are generated
-separately; they are not Joplin’s or Mutopia’s editorial fingerings.
+which are split according to the source. The fingering overlay copies selected checked annotations from Roger
+Galloway’s CC BY-SA 4.0 edition. Its full annotated PDF is linked; untranscribed
+notes stay blank, with no generated fingerings added.
 
 MIDI SHA-256: 33e4e81ee64ffb2edf90d1c6a1ddee7276507296bfb915c2bb775231a467f066
 
