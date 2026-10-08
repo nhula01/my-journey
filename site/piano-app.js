@@ -31,7 +31,7 @@ const COMPOSERS = {
   'Folk songs': { years: 'Traditional', era: 'First tunes', folk: true }
 };
 // Well-known concert pieces, shown first in the library.
-const FAMOUS = ['fur', 'moonlight', 'fantaisie-impromptu', 'clair', 'alla-turca', 'nocturne', 'minute-waltz', 'entertainer', 'rach-prelude', 'maple-leaf', 'gymnopedie', 'mountain-king', 'raindrop', 'revolutionary', 'arabesque1', 'gnossienne1', 'traumerei', 'impromptu-gflat', 'consolation3', 'brahms-waltz', 'prelude', 'pathetique'];
+const FAMOUS = ['campanella', 'fur', 'moonlight', 'liebestraum', 'fantaisie-impromptu', 'ballade1', 'tristesse', 'heroic', 'clair', 'alla-turca', 'nocturne', 'minute-waltz', 'entertainer', 'rach-prelude', 'maple-leaf', 'gymnopedie', 'mountain-king', 'raindrop', 'revolutionary', 'arabesque1', 'gnossienne1', 'traumerei', 'impromptu-gflat', 'winter-wind', 'waltz-csharp', 'nocturne-csharp', 'nocturne-op9-1', 'nocturne-op48', 'etude-op10-4', 'consolation3', 'brahms-waltz', 'prelude', 'pathetique'];
 const slug = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const initials = name => name.split(/\s+/).filter(w => /^[A-ZÀ-Ý]/.test(w)).map(w => w[0]).slice(0, 2).join('');
 const lastName = name => name === 'Folk songs' ? 'Folk songs' : name.split(' ').slice(-1)[0];
