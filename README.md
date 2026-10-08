@@ -138,3 +138,32 @@ from the private chat journal and do not create practice records.
 Verify the parser, pitch detector, repeated notes, chords, input adapters, pass
 threshold and device cleanup with `node --test tests/piano-*.test.cjs`. Synthetic
 audio and simulated MIDI verify the software; real hardware needs user testing.
+
+## Complete Entertainer score and fingering
+
+The player now bundles Mutopia’s public-domain reproduction of the 1902 edition
+of The Entertainer, with its complete PDF, unmodified MIDI and LilyPond source.
+The practice dataset contains all 2,621 MIDI notes, including unfolded repeats,
+across 152 performed 2/4 measures. Eleven selectable sections follow the source’s
+form and endings; these performed measure numbers differ from the 92 printed
+measures because repeats are unfolded. The second B pass follows Mutopia MIDI
+without applying the printed “Repeat 8va” instruction. The PDF retains that
+instruction. Files, attribution and provenance are in `site/scores/entertainer/`.
+Regenerate the bundled dataset with `node scripts/build-entertainer.cjs`.
+
+Hand assignment follows the source MIDI staffs, with the cross-staff introduction
+split according to the LilyPond voices. Right/left hand modes retain chords;
+right-hand top-line and left-hand bottom-line modes reduce each onset to one pitch
+for microphone practice. Microphone detection now covers C1–C7; actual acoustic
+reliability still depends on the instrument and room. Notes can be paged through
+without marking them as played. Preview schedules the entire selected practice,
+rather than cutting off after 48 groups. Reconnecting an input resumes the current
+attempt; Restart practice explicitly clears it. Passes are stored per part and
+section so a section pass does not imply passing the whole piece.
+
+Recommend fingering is an optional generated overlay: R/L identify the hand and
+1–5 identify thumb through little finger. Melody suggestions use note sequence and
+hand direction; chord suggestions use ordered finger combinations. They are not
+editorial fingerings from Mutopia/Joplin or individualized teacher advice. Chords
+wider than an octave or with more than five notes receive no automatic fingering.
+Imported scores without hand assignments use the selected fingering hand.

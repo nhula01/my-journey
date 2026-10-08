@@ -5,10 +5,10 @@ const names=['C','C♯','D','D♯','E','F','F♯','G','G♯','A','A♯','B'];
 const noteName=n=>names[n%12]+(Math.floor(n/12)-1);
 function pitch(samples,rate){
  let rms=0;for(const x of samples)rms+=x*x;rms=Math.sqrt(rms/samples.length);if(rms<.008)return null;
- const min=Math.floor(rate/1100),max=Math.min(Math.floor(rate/65),Math.floor(samples.length/2));const diff=new Float64Array(max+1);let sum=0,best=0;
+ const min=Math.floor(rate/2200),max=Math.min(Math.floor(rate/32.7),Math.floor(samples.length/2));const diff=new Float64Array(max+1);let sum=0,best=0;
  for(let lag=1;lag<=max;lag++){let d=0;for(let i=0;i<samples.length-max;i++){const x=samples[i]-samples[i+lag];d+=x*x;}sum+=d;diff[lag]=sum?d*lag/sum:1;}
  for(let lag=min;lag<max-1;lag++){if(diff[lag]<.12){while(lag+1<max&&diff[lag+1]<diff[lag])lag++;best=lag;break;}}
- if(!best)return null;const a=diff[best-1],b=diff[best],c=diff[best+1],offset=(a-c)/(2*(a-2*b+c)||1);const frequency=rate/(best+Math.max(-1,Math.min(1,offset)));const exact=69+12*Math.log2(frequency/440),midi=Math.round(exact);if(midi<36||midi>84||Math.abs(exact-midi)>.35)return null;return {midi,frequency,rms};
+ if(!best)return null;const a=diff[best-1],b=diff[best],c=diff[best+1],offset=(a-c)/(2*(a-2*b+c)||1);const frequency=rate/(best+Math.max(-1,Math.min(1,offset)));const exact=69+12*Math.log2(frequency/440),midi=Math.round(exact);if(midi<24||midi>96||Math.abs(exact-midi)>.35)return null;return {midi,frequency,rms};
 }
 function parseMidi(buffer){
  const data=new DataView(buffer);let pos=0;const need=n=>{if(pos+n>data.byteLength)throw Error('Truncated MIDI file.');};const u8=()=>{need(1);return data.getUint8(pos++);};const u16=()=>{need(2);const v=data.getUint16(pos);pos+=2;return v;};const u32=()=>{need(4);const v=data.getUint32(pos);pos+=4;return v;};const tag=()=>String.fromCharCode(u8(),u8(),u8(),u8());const vlq=()=>{let n=0;for(let i=0;i<4;i++){const b=u8();n=n*128+(b&127);if(!(b&128))return n;}throw Error('Invalid MIDI timing.');};
@@ -18,12 +18,43 @@ function parseMidi(buffer){
  if(!notes.length)throw Error('No pitched notes found in this MIDI file.');if(notes.length>20000)throw Error('Choose a shorter MIDI file (up to 20,000 notes).');return notes.sort((a,b)=>a.beat-b.beat||a.midi-b.midi);
 }
 function groups(notes,voice='melody'){
- const events=[];for(const n of notes){let last=events[events.length-1];if(!last||Math.abs(last.beat-n.beat)>.025){last={beat:n.beat,notes:[],duration:n.duration};events.push(last);}last.notes.push(n.midi);last.duration=Math.max(last.duration,n.duration);}
- return events.map(e=>({...e,notes:voice==='melody'?[Math.max(...e.notes)]:voice==='bass'?[Math.min(...e.notes)]:[...new Set(e.notes)].sort((a,b)=>a-b)}));
+ const hand=voice.startsWith('right')?'right':voice.startsWith('left')?'left':null;
+ const selected=hand?notes.filter(n=>n.hand===hand):notes;
+ const events=[];for(const n of selected){let last=events[events.length-1];if(!last||Math.abs(last.beat-n.beat)>.025){last={beat:n.beat,notes:[],members:[],duration:n.duration};events.push(last);}last.notes.push(n.midi);last.members.push(n);last.duration=Math.max(last.duration,n.duration);}
+ return events.map(e=>({...e,notes:['melody','rightMelody'].includes(voice)?[Math.max(...e.notes)]:['bass','leftBass'].includes(voice)?[Math.min(...e.notes)]:[...new Set(e.notes)].sort((a,b)=>a-b)}));
+}
+// Practical starting suggestions, not an editorial fingering of the source score.
+function recommendFingering(events,hand='right'){
+ const black=n=>[1,3,6,8,10].includes(n%12),orient=f=>hand==='right'?f:6-f;
+ const result=events.map(()=>({fingers:{},warning:''}));
+ const singles=[];
+ events.forEach((e,index)=>{
+  const notes=e.notes.filter(n=>!e.members?.length||e.members.some(m=>m.midi===n&&m.hand===hand));
+  if(!notes.length)return;
+  if(notes.length===1){singles.push({index,note:notes[0]});return;}
+  if(notes.length>5||notes.at(-1)-notes[0]>12){result[index].warning='Wide chord: plan a comfortable redistribution with a teacher; no forced stretch suggested.';return;}
+  // Enumerate ordered finger choices; avoid thumb on black keys where feasible.
+  let best,cost=Infinity;
+  function choose(chosen,start){if(chosen.length===notes.length){let score=0;chosen.forEach((f,i)=>{if(black(notes[i])&&f===1)score+=3;if(i){const spread=notes[i]-notes[i-1],steps=Math.abs(f-chosen[i-1]);score+=Math.abs(spread/2-steps);if(spread>steps*3+2)score+=8;}});if(score<cost){cost=score;best=chosen;}return;}for(let x=start;x<=5-(notes.length-chosen.length-1);x++)choose([...chosen,hand==='right'?x:6-x],x+1);}
+  choose([],1);notes.forEach((n,i)=>result[index].fingers[n]=best[i]);
+ });
+ // Melody: choose fingers together across successive notes, allowing hand shifts.
+ const layers=[];
+ singles.forEach((item,i)=>{const row=[];for(let finger=1;finger<=5;finger++){const base=black(item.note)&&(finger===1||finger===5)?2:0;let best=Infinity,previous=0;
+  if(!i){best=base+Math.abs(orient(finger)-3)*.2;}else for(let prev=1;prev<=5;prev++){const jump=item.note-singles[i-1].note,move=orient(finger)-orient(prev);let c;
+   if(jump===0)c=finger===prev?0:2;
+   else if(Math.abs(jump)>7)c=2+Math.abs(orient(finger)-3)*.2; // move the hand, avoid reaching
+   else if(jump*move>0)c=Math.abs(Math.abs(jump)/2-Math.abs(move))*.6;
+   else if(move===0)c=3+Math.abs(jump)*.4;
+   else {const crossing=jump>0?orient(finger)===1:orient(prev)===1;c=crossing?2.5:6;}
+   const total=layers[i-1][prev-1].cost+c+base;if(total<best){best=total;previous=prev;}}
+  row.push({cost:best,previous});}layers.push(row);});
+ if(singles.length){let finger=layers.at(-1).reduce((best,x,i,row)=>x.cost<row[best-1].cost?i+1:best,1);for(let i=singles.length-1;i>=0;i--){result[singles[i].index].fingers[singles[i].note]=finger;finger=layers[i][finger-1].previous;}}
+ return result;
 }
 class Matcher{
  constructor(events){this.events=events;this.index=0;this.errors=0;this.held=new Set();this.releaseRequired=new Set();}
  input(midi,on){if(!on){this.held.delete(midi);this.releaseRequired.delete(midi);return 'release';}if(this.held.has(midi))return 'held';this.held.add(midi);if(this.index>=this.events.length)return 'complete';const expected=this.events[this.index].notes;if(!expected.includes(midi)){this.errors++;return 'wrong';}if(this.releaseRequired.has(midi))return 'release-first';if(expected.every(n=>this.held.has(n)&&!this.releaseRequired.has(n))){expected.forEach(n=>this.releaseRequired.add(n));this.index++;return this.index===this.events.length?'complete':'correct';}return 'partial';}
 }
-const api={noteName,pitch,parseMidi,groups,Matcher};if(typeof module!=='undefined')module.exports=api;else root.PianoEngine=api;
+const api={noteName,pitch,parseMidi,groups,recommendFingering,Matcher};if(typeof module!=='undefined')module.exports=api;else root.PianoEngine=api;
 })(typeof window!=='undefined'?window:globalThis);

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-08T03:45:15.454216+00:00",
+  "updatedAt": "2026-10-08T05:52:41.806629+00:00",
   "goals": {
     "height": 178,
     "weight": 79,
@@ -385,16 +385,17 @@
     "piece": "The Entertainer",
     "composer": "Scott Joplin",
     "selectedDate": "2026-10-06",
-    "context": "Arrangement and score not supplied yet. This is an initial study plan, not a claim that you have practiced or mastered the topic.",
+    "context": "Practice edition: Mutopia’s public-domain reproduction of the original 1902 score, typeset by Chris Sawer. The complete PDF and matching MIDI are available in the piano player. This selects study material; no completed practice or mastery is recorded.",
     "scoreReference": "https://www.loc.gov/item/2023864238/",
     "nextMove": {
       "topic": "Keep a steady pulse while learning syncopation.",
-      "why": "The Entertainer is a ragtime piece. Understanding how the melody can fall between beats gives you a useful foundation before combining it with the accompaniment. Your arrangement is still unknown, so this is a general first step.",
+      "why": "The score is now available. In the A section, offbeat melody attacks and ties sit above the accompaniment’s regular pulse. Study the pulse and subdivisions before attempting complete chords.",
       "learn": "First check that you can count the beats and subdivide them evenly. Then study syncopation: rhythmic emphasis shifts toward a weak beat or weak part of a beat, sometimes through a note tied across a stronger beat. The accompaniment can keep the steady pulse underneath.",
-      "exercise": "Choose two to four bars from your own score. Tap a steady beat with one hand and clap the melody’s rhythm with the other while counting subdivisions aloud. Then try the melody alone at a comfortable slow tempo. Log which rhythm is confusing before adding the accompaniment.",
+      "exercise": "Select A · first pass in the player. Study printed measures 5–6 in the linked Mutopia score: count 1 e and a, 2 e and a while tapping quarter-note beats, then clap the right-hand rhythm, including ties. Try the right-hand top line slowly. The player checks pitches; check the rhythm yourself before adding the accompaniment.",
       "success": "Self-check: repeat the passage’s rhythm three times without losing the steady tapped pulse. Point to one place where emphasis falls on a weak part of a beat or a note carries across a stronger beat. Report what happened; this is not yet a verified result.",
       "resourceURL": "https://musictheory.pugetsound.edu/mt21c/CommonRhythmicNotationErrors.html",
       "resourceTitle": "Study: showing beats and syncopation · University of Puget Sound ↗"
-    }
+    },
+    "scoreURL": "https://www.mutopiaproject.org/ftp/JoplinS/entertainer/entertainer-a4.pdf"
   }
 }
