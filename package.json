@@ -1,0 +1,1 @@
+{"name":"my-journey-piano-tests","private":true,"scripts":{"test:piano":"node --test tests/piano-*.test.cjs"},"devDependencies":{"jsdom":"27.0.1"}}
