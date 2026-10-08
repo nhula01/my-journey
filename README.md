@@ -98,3 +98,12 @@ Log entries using `python3 scripts/journal.py pianoLearning record.json`.
 learning days. Selecting a piece does not invent a learning log. The Entertainer
 is the current selection; the original versus simplified arrangement remains
 unconfirmed. Old recordings remain accessible under optional references.
+
+## Guided piano repertoire
+
+The piano studio includes eight repertoire paths, from Ode to Joy to Clair de lune,
+with score preparation, a piece-specific skill, hands-together practice and phrasing.
+The Entertainer remains available alongside the classical library. A browser metronome
+supports 30–200 BPM. Self-checks and library selection stay in this browser’s local
+storage; they are not completed journal entries or automatic accuracy scores.
+Use a separately chosen score; no sheet music or MIDI assessment is bundled.
