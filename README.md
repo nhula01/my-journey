@@ -167,3 +167,40 @@ hand direction; chord suggestions use ordered finger combinations. They are not
 editorial fingerings from Mutopia/Joplin or individualized teacher advice. Chords
 wider than an octave or with more than five notes receive no automatic fingering.
 Imported scores without hand assignments use the selected fingering hand.
+
+## Two-hand engraved score and moving-sheet practice
+
+The Entertainer now defaults to both hands. Original PDF pages are displayed
+inside the piano page, with a four-page selector. A matching interactive score
+is engraved from the same LilyPond source with repeats unfolded. It preserves
+notation, rests, ties, beams, accidentals, dynamics, and both staves; it is not
+a MIDI approximation of the staff. `piano-engraving.js` contains six practice
+pages, 30 cropped systems, and notehead timing/pitch attributes. Tests verify
+that every MIDI attack has a matching engraved notehead and that motion stays
+continuous across system boundaries.
+
+Practice type 1 waits for the correct pitches. Each correct note in a chord
+turns green; the group advances only after every required pitch is played.
+Practice type 2 moves the grand staff left past a fixed playhead, with a piano
+keyboard underneath, following the user’s Simply Piano video reference. It has
+a four-beat visual count-in, adjustable 30–200 BPM tempo and MIDI attack
+assessment within 160 ms of an onset. Incorrect attacks and missed groups
+affect the result. Holding a note cannot satisfy a repeated attack. A timed
+pass is saved separately from a waiting-mode pass. Note release lengths and
+expression are not graded. Timed moving notation is currently enabled for
+the fully engraved Entertainer; other/imported MIDI scores retain sheet mode.
+Microphone mode remains single-note-only and cannot assess both-hand chords.
+
+Preview and optional live MIDI monitoring use 88 recorded FluidR3 acoustic
+grand-piano samples, bundled locally under CC BY 3.0. There is no oscillator
+piano fallback. Attribution and source links are in
+`site/audio/grand-piano/README.md`. Demos never create a pass. Audio uses the
+Web Audio clock for both scheduling and animation, and stops when the page
+is hidden or the user stops playback. No microphone recordings are saved.
+
+Regenerate engraving with LilyPond 2.24.4 (portable official macOS binary used
+for this build) and `site/scores/entertainer/practice.ly`, using SVG backend and
+`-dno-point-and-click`. Then run `python3 scripts/build-piano-engraving.py
+/path/to/svg-output-directory`. Original JPEG previews are rendered directly
+from the unchanged PDF with Poppler. The compiled artifacts are bundled so
+visitors need neither LilyPond nor an online engraving service.

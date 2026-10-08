@@ -56,5 +56,12 @@ class Matcher{
  constructor(events){this.events=events;this.index=0;this.errors=0;this.held=new Set();this.releaseRequired=new Set();}
  input(midi,on){if(!on){this.held.delete(midi);this.releaseRequired.delete(midi);return 'release';}if(this.held.has(midi))return 'held';this.held.add(midi);if(this.index>=this.events.length)return 'complete';const expected=this.events[this.index].notes;if(!expected.includes(midi)){this.errors++;return 'wrong';}if(this.releaseRequired.has(midi))return 'release-first';if(expected.every(n=>this.held.has(n)&&!this.releaseRequired.has(n))){expected.forEach(n=>this.releaseRequired.add(n));this.index++;return this.index===this.events.length?'complete':'correct';}return 'partial';}
 }
-const api={noteName,pitch,parseMidi,groups,recommendFingering,Matcher};if(typeof module!=='undefined')module.exports=api;else root.PianoEngine=api;
+class TimedMatcher {
+ constructor(events,bpm=60,windowSeconds=.16){this.events=events;this.bpm=bpm;this.window=windowSeconds;this.hits=events.map(()=>new Set());this.states=events.map(()=> 'pending');this.errors=0;this.held=new Set();}
+ due(i){return (this.events[i].beat-this.events[0].beat)*60/this.bpm;}
+ advance(seconds){this.states.forEach((state,i)=>{if(state==='pending'&&seconds>this.due(i)+this.window)this.states[i]='missed';});}
+ input(midi,on,seconds){if(!on){this.held.delete(midi);return 'release';}if(this.held.has(midi))return 'held';this.held.add(midi);this.advance(seconds);let best=-1,distance=Infinity;this.events.forEach((e,i)=>{const d=Math.abs(seconds-this.due(i));if(this.states[i]==='pending'&&e.notes.includes(midi)&&!this.hits[i].has(midi)&&d<=this.window&&d<distance){best=i;distance=d;}});if(best<0){this.errors++;return 'wrong';}this.hits[best].add(midi);if(this.events[best].notes.every(n=>this.hits[best].has(n)))this.states[best]='hit';return this.states[best]==='hit'?'correct':'partial';}
+ result(){const hit=this.states.filter(s=>s==='hit').length,missed=this.states.filter(s=>s==='missed').length,total=this.events.length;return {hit,missed,total,errors:this.errors,accuracy:Math.floor(100*hit/(total+this.errors)),complete:hit+missed===total};}
+}
+const api={noteName,pitch,parseMidi,groups,recommendFingering,Matcher,TimedMatcher};if(typeof module!=='undefined')module.exports=api;else root.PianoEngine=api;
 })(typeof window!=='undefined'?window:globalThis);

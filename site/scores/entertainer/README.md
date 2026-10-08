@@ -18,3 +18,8 @@ separately; they are not Joplin’s or Mutopia’s editorial fingerings.
 MIDI SHA-256: 33e4e81ee64ffb2edf90d1c6a1ddee7276507296bfb915c2bb775231a467f066
 
 Regenerate with node scripts/build-entertainer.cjs.
+
+`practice.ly` is the derived engraving input: the same source definitions with
+repeats unfolded and an engraver adding beat/pitch attributes to noteheads.
+Original PDF remains unchanged. Original page JPEGs are direct PDF renders.
+Practice SVG has six pages because repeats are written out for progression.
