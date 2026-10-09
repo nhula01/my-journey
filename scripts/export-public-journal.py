@@ -9,7 +9,7 @@ def export_public():
     data=read()
     # Only the journal's known display fields; never copy the private directory,
     # GitHub credentials, temporary records or unrelated files.
-    public={key:data[key] for key in ('version','updatedAt','goals','meals','measurements','reflections','activities','practices','pianoLearning','pianoFocus') if key in data}
+    public={key:data[key] for key in ('version','updatedAt','goals','meals','measurements','reflections','activities') if key in data}
     root=Path(__file__).resolve().parents[1]/'site'
     for meal in public.get('meals',[]):
         for photo in meal.get('photos',[]):
@@ -20,7 +20,7 @@ def export_public():
             destination.parent.mkdir(parents=True,exist_ok=True)
             shutil.copy2(source,destination)
     (root/'journal.json').write_text(json.dumps(public,indent=2,ensure_ascii=False)+'\n')
-    print(f'Exported {len(public["meals"])} meals, {len(public.get("activities",[]))} exercise logs, and piano context.')
+    print(f'Exported {len(public["meals"])} meals, {len(public.get("activities",[]))} exercise logs.')
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
