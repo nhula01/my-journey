@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-09T04:10:30.562026+00:00",
+  "updatedAt": "2026-10-09T04:13:39.404682+00:00",
   "goals": {
     "height": 178,
     "weight": 79,
@@ -433,50 +433,47 @@
       "id": "2026-10-08-boba-01",
       "date": "2026-10-08",
       "mealType": "Drink",
-      "title": "Boba · 1 drink",
-      "description": "One boba drink.",
+      "title": "Trà đào · 1 drink",
+      "description": "One trà đào (peach tea), correcting the earlier description as boba.",
       "nutrition": {
         "calories": {
-          "value": 400,
-          "low": 250,
-          "high": 650,
+          "value": 180,
+          "low": 80,
+          "high": 300,
           "source": "estimate"
         },
         "protein": {
-          "value": 3,
+          "value": 0,
           "low": 0,
-          "high": 8,
+          "high": 1,
           "source": "estimate"
         },
         "carbs": {
-          "value": 80,
-          "low": 50,
-          "high": 120,
+          "value": 45,
+          "low": 20,
+          "high": 75,
           "source": "estimate"
         },
         "fat": {
-          "value": 8,
+          "value": 0,
           "low": 0,
-          "high": 20,
+          "high": 0,
           "source": "estimate"
         },
         "fiber": {
-          "value": 0,
+          "value": 0.5,
           "low": 0,
           "high": 2,
           "source": "estimate"
         }
       },
-      "assumptions": "Provisionally assumes a medium 500–700 ml sweetened milk tea with tapioca pearls; size, flavor, milk, sugar level and toppings unreported.",
-      "analysis": "Sugar and pearls can contribute substantial energy; drink details would refine the estimate.",
+      "assumptions": "Assumes one medium 500–700 ml sweetened peach tea, without milk or tapioca pearls. Size, sugar level, syrup and peach pieces unreported. Toppings have not been confirmed; calorie range is a provisional recipe/portion estimate.",
+      "analysis": "Sweetened peach tea contributes mainly carbohydrate from sugar or syrup. Actual calories depend on size and sweetness.",
       "suggestions": [
         {
-          "title": "Try less sugar in the boba",
-          "detail": "Next time, choose a smaller cup or lower sugar level if you enjoy it; pearls still contribute calories."
+          "title": "Try less sugar in the peach tea",
+          "detail": "Next time, request less sugar or syrup if you enjoy it; keep the peach flavor."
         }
-      ],
-      "sources": [
-        "https://mtalvernia.sg/education/whats-in-my-bubble-tea/"
       ]
     },
     {
