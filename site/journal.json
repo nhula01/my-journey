@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-08T05:52:41.806629+00:00",
+  "updatedAt": "2026-10-09T04:10:30.562026+00:00",
   "goals": {
     "height": 178,
     "weight": 79,
@@ -299,6 +299,227 @@
       "sources": [
         "https://healthcare.orgain.com/static/frontend/LeVentures/orgain/en_US/pdf/resources/Orgain_Product_Guide_WEB_082720.pdf"
       ]
+    },
+    {
+      "id": "2026-10-08-steak-01",
+      "date": "2026-10-08",
+      "mealType": "Meal",
+      "title": "Steak · 1 normal-sized portion",
+      "description": "One normal size steak.",
+      "nutrition": {
+        "calories": {
+          "value": 550,
+          "low": 350,
+          "high": 800,
+          "source": "estimate"
+        },
+        "protein": {
+          "value": 55,
+          "low": 40,
+          "high": 70,
+          "source": "estimate"
+        },
+        "carbs": {
+          "value": 0,
+          "low": 0,
+          "high": 5,
+          "source": "estimate"
+        },
+        "fat": {
+          "value": 36,
+          "low": 18,
+          "high": 58,
+          "source": "estimate"
+        },
+        "fiber": {
+          "value": 0,
+          "low": 0,
+          "high": 0,
+          "source": "estimate"
+        }
+      },
+      "assumptions": "Provisionally assumes about 200 g cooked steak (roughly 170–250 g), no sides. Cut and added butter/oil unknown; allowance included in calorie range.",
+      "analysis": "Substantial protein; cut and added fat drive calorie uncertainty.",
+      "suggestions": []
+    },
+    {
+      "id": "2026-10-08-balut-01",
+      "date": "2026-10-08",
+      "mealType": "Meal",
+      "title": "Balut · 4 eggs",
+      "description": "Four baluts.",
+      "nutrition": {
+        "calories": {
+          "value": 752,
+          "low": 640,
+          "high": 840,
+          "source": "estimate"
+        },
+        "protein": {
+          "value": 56,
+          "low": 48,
+          "high": 60,
+          "source": "estimate"
+        },
+        "carbs": {
+          "value": 4,
+          "low": 0,
+          "high": 8,
+          "source": "estimate"
+        },
+        "fat": {
+          "value": 56,
+          "low": 44,
+          "high": 64,
+          "source": "estimate"
+        },
+        "fiber": {
+          "value": 0,
+          "low": 0,
+          "high": 0,
+          "source": "estimate"
+        }
+      },
+      "assumptions": "Four whole duck baluts eaten. Calorie/protein anchors are about 188 kcal and 14 g protein per egg from the Philippine National Nutrition Council; other macros are provisional egg estimates.",
+      "analysis": "Four eggs provide substantial protein and fat.",
+      "suggestions": [],
+      "sources": [
+        "https://nnc.gov.ph/mindanao-region/are-there-good-nutrients-in-balut/"
+      ]
+    },
+    {
+      "id": "2026-10-08-bun-dau-01",
+      "date": "2026-10-08",
+      "mealType": "Meal",
+      "title": "Bún đậu mắm tôm · 1 serving",
+      "description": "One serving of bún đậu mắm tôm.",
+      "nutrition": {
+        "calories": {
+          "value": 950,
+          "low": 650,
+          "high": 1400,
+          "source": "estimate"
+        },
+        "protein": {
+          "value": 35,
+          "low": 20,
+          "high": 55,
+          "source": "estimate"
+        },
+        "carbs": {
+          "value": 100,
+          "low": 70,
+          "high": 150,
+          "source": "estimate"
+        },
+        "fat": {
+          "value": 45,
+          "low": 25,
+          "high": 70,
+          "source": "estimate"
+        },
+        "fiber": {
+          "value": 5,
+          "low": 2,
+          "high": 8,
+          "source": "estimate"
+        }
+      },
+      "assumptions": "Assumes a restaurant platter with about 200 g cooked rice noodles, 150 g fried tofu, pork/sausage accompaniments, herbs and shrimp paste dipping sauce. Actual components, portions and frying oil unknown; these are assumptions, not reported ingredients.",
+      "analysis": "Tofu and possible meat provide protein; noodles and frying oil drive much of the energy estimate. Herbs contribute some fiber.",
+      "suggestions": []
+    },
+    {
+      "id": "2026-10-08-boba-01",
+      "date": "2026-10-08",
+      "mealType": "Drink",
+      "title": "Boba · 1 drink",
+      "description": "One boba drink.",
+      "nutrition": {
+        "calories": {
+          "value": 400,
+          "low": 250,
+          "high": 650,
+          "source": "estimate"
+        },
+        "protein": {
+          "value": 3,
+          "low": 0,
+          "high": 8,
+          "source": "estimate"
+        },
+        "carbs": {
+          "value": 80,
+          "low": 50,
+          "high": 120,
+          "source": "estimate"
+        },
+        "fat": {
+          "value": 8,
+          "low": 0,
+          "high": 20,
+          "source": "estimate"
+        },
+        "fiber": {
+          "value": 0,
+          "low": 0,
+          "high": 2,
+          "source": "estimate"
+        }
+      },
+      "assumptions": "Provisionally assumes a medium 500–700 ml sweetened milk tea with tapioca pearls; size, flavor, milk, sugar level and toppings unreported.",
+      "analysis": "Sugar and pearls can contribute substantial energy; drink details would refine the estimate.",
+      "suggestions": [
+        {
+          "title": "Try less sugar in the boba",
+          "detail": "Next time, choose a smaller cup or lower sugar level if you enjoy it; pearls still contribute calories."
+        }
+      ],
+      "sources": [
+        "https://mtalvernia.sg/education/whats-in-my-bubble-tea/"
+      ]
+    },
+    {
+      "id": "2026-10-08-coke-01",
+      "date": "2026-10-08",
+      "mealType": "Drink",
+      "title": "Coke · 90 kcal",
+      "description": "One Coke, 90 calories as reported.",
+      "nutrition": {
+        "calories": {
+          "value": 90,
+          "low": 90,
+          "high": 90,
+          "source": "user"
+        },
+        "protein": {
+          "value": 0,
+          "low": 0,
+          "high": 0,
+          "source": "estimate"
+        },
+        "carbs": {
+          "value": 22.5,
+          "low": 22.5,
+          "high": 22.5,
+          "source": "estimate"
+        },
+        "fat": {
+          "value": 0,
+          "low": 0,
+          "high": 0,
+          "source": "estimate"
+        },
+        "fiber": {
+          "value": 0,
+          "low": 0,
+          "high": 0,
+          "source": "estimate"
+        }
+      },
+      "assumptions": "Calories supplied by user; carbohydrate estimated as 90/4 g assuming regular sugar-sweetened Coke. Zero protein, fat and fiber assumed from standard Coke composition.",
+      "analysis": "Adds the reported 90 kcal, mostly from sugar.",
+      "suggestions": []
     }
   ],
   "measurements": [
