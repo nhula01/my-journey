@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-09T04:13:39.404682+00:00",
+  "updatedAt": "2026-10-12T21:07:02.902366+00:00",
   "goals": {
     "height": 178,
     "weight": 79,
@@ -39,6 +39,30 @@
         "https://pubmed.ncbi.nlm.nih.gov/28698222/",
         "https://www.nationalacademies.org/news/report-offers-new-eating-and-physical-activity-targets-to-reduce-chronic-disease-risk"
       ]
+    },
+    "trainingPlan": {
+      "objective": "Lose body fat while maintaining strength and supporting muscle growth",
+      "experienceYears": 1,
+      "regularLifting": true,
+      "reportedDate": "2026-10-12",
+      "strengthDays": 3,
+      "minutesCap": 60,
+      "workingSets": "3 sets for leg press, chest press and row; 2 sets for hamstring curl, shoulder press and plank",
+      "planningWeightLossKgPerWeek": {
+        "low": 0.4,
+        "high": 0.7
+      },
+      "goalWeight": 79,
+      "summary": "User reports one year of lifting experience, regular lifting, gym access without movement limitations, and current weight 88 kg. Proposed schedule: full-body resistance training Monday/Wednesday/Friday; moderate walking Tuesday/Thursday/Saturday; rest Sunday. Fat-loss pace of about 0.4–0.7 kg/week is a provisional planning range, not a guaranteed rate. Preserve the existing 79 kg goal, December 10 deadline, 1710-kcal intake and macro targets; review that aggressive deadline and intake against recovery and weight trends.",
+      "reviewAfterWeeks": 2,
+      "sources": [
+        "https://acsm.org/resistance-training-guidelines-update-2026/",
+        "https://www.cdc.gov/healthy-weight-growth/losing-weight/index.html",
+        "https://pubmed.ncbi.nlm.nih.gov/40909191/",
+        "https://pubmed.ncbi.nlm.nih.gov/34623696/"
+      ],
+      "inputWeight": 88,
+      "calorieTargetStatus": "review-needed"
     }
   },
   "meals": [
@@ -525,6 +549,12 @@
       "weight": 88,
       "source": "user",
       "note": "Current weight reported in the project chat."
+    },
+    {
+      "date": "2026-10-12",
+      "weight": 88,
+      "source": "user",
+      "note": "User confirms current weight is still 88 kg."
     }
   ],
   "reflections": [],
