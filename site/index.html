@@ -2,23 +2,34 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#455b3e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="My Journey">
   <meta name="description" content="My Journey — nutrition, food insights and weight progress from your daily food logs.">
   <title>My Journey · Weight</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
   <link rel="stylesheet" href="style.css?v=0bf7b4a2bd65">
   <link rel="stylesheet" href="weight.css?v=20261012bodygoal">
   <script src="nutrition.js?v=502b16f0a8eb" defer></script>
   <script src="workout-data.js?v=20261012bodygoal" defer></script>
   <script src="workouts.js?v=20261012repeat" defer></script>
-  <script src="weight.js?v=20261012bodygoal" defer></script>
+  <script src="weight.js?v=20261012app2" defer></script>
+  <link rel="stylesheet" href="pwa.css?v=20261012app2">
+  <script src="pwa.js?v=20261012app2" defer></script>
 </head>
 <body data-page="weight">
   <a class="skip" href="#main">Skip to dashboard</a>
   <header>
     <a class="brand" href="index.html">My Journey<span>A LITTLE BETTER, EVERY DAY</span></a>
-    <nav aria-label="Journal pages"><a href="index.html" aria-current="page">01 / Weight</a></nav>
+    <div class="app-header-actions"><nav aria-label="Journal pages"><a href="index.html" aria-current="page">01 / Weight</a></nav><button id="install-app" class="secondary" hidden>Install app</button></div>
   </header>
   <main id="main">
+    <div id="app-connection" class="app-notice" role="status" hidden></div>
+    <div id="app-update" class="app-notice" hidden><span>An app update is ready.</span><button id="update-app">Update & reload</button></div>
     <section class="dashboard-intro">
       <div><p class="eyebrow">01 / FOOD, HEALTH & PROGRESS</p><h1>Your daily nutrition.<br><em>One meal at a time.</em></h1><p class="lead">Your meals, made clearer. Log food and photos in this project’s chat; your nutrition and reflections come together here.</p></div>
       <aside><span class="margin-label">a note to myself</span><p class="handwritten">Notice. Learn.<br>Make one small change.</p><span class="page-number">MY JOURNEY — 001</span></aside>
@@ -32,7 +43,7 @@
       <div id="energy-plan-cards" class="energy-plan-grid"></div>
       <p id="energy-plan-note" class="muted"></p>
     </section>
-    <section class="nutrition-dashboard" aria-label="Daily nutrition">
+    <section id="nutrition" class="nutrition-dashboard" aria-label="Daily nutrition">
       <article class="calorie-card"><div><p class="eyebrow">DAILY ENERGY</p><h2>Calories</h2><div id="calorie-value" class="calorie-value">— <span>kcal logged</span></div><p id="calorie-range" class="muted"></p><div id="calorie-budget" class="budget"></div></div><div id="calorie-ring" class="calorie-ring" aria-label="Calorie target is unset"><div><span id="ring-value">—</span><small id="ring-label">target unset</small></div></div><p id="nutrition-coverage" class="coverage"></p></article>
       <div id="macros" class="macro-grid"></div>
     </section>
@@ -50,5 +61,15 @@
     <p id="status" role="status" aria-live="polite"></p>
   </main>
   <footer><span>My Journey · A personal notebook</span><span>Health & progress, day by day.</span></footer>
+  <nav class="app-navigation" aria-label="App sections"><a href="#workout-plan">Workouts</a><a href="#nutrition">Nutrition</a><a href="#weight-goal">Progress</a></nav>
+  <dialog id="install-dialog" aria-labelledby="install-title">
+    <div class="install-heading"><img src="icons/apple-touch-icon.png" width="64" height="64" alt=""><div><p class="eyebrow">ON YOUR HOME SCREEN</p><h2 id="install-title">Take My Journey with you.</h2></div></div>
+    <p>Your daily workouts, muscle guides and checklist, in an app you can open from your Home Screen. No App Store needed.</p>
+    <ol id="install-steps"><li>Open this page in <strong>Safari on your iPhone</strong>.</li><li>Tap <strong>Share</strong> (the square with an upward arrow). You may find it in Safari’s page menu.</li><li>Choose <strong>Add to Home Screen</strong>, enable <strong>Open as Web App</strong> if shown, then tap <strong>Add</strong>.</li></ol>
+    <p class="muted">Can’t see Add to Home Screen? Choose Edit Actions in the Share menu to add it.</p>
+    <div class="install-offline"><strong>Ready for the gym</strong><p>The workout plan and muscle guides are saved for offline use after the app loads online. Videos need internet. Your checklist stays on this device; it does not sync between Safari and the installed app. Journal entries are the latest published snapshot, not a live chat connection.</p></div>
+    <p id="offline-setup" class="muted" role="status">Preparing offline workout guides…</p>
+    <div class="install-actions"><button id="native-install" hidden>Install My Journey</button><button id="close-install" class="secondary">Done</button></div>
+  </dialog>
 </body>
 </html>

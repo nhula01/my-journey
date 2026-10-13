@@ -1,0 +1,17 @@
+{
+  "id": "./",
+  "name": "My Journey",
+  "short_name": "My Journey",
+  "description": "Your daily gym plan, exercise guides, nutrition and progress.",
+  "lang": "en",
+  "start_url": "./?app=1#workout-plan",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fbfaf5",
+  "theme_color": "#455b3e",
+  "icons": [
+    {"src":"icons/icon-192.png","sizes":"192x192","type":"image/png","purpose":"any"},
+    {"src":"icons/icon-512.png","sizes":"512x512","type":"image/png","purpose":"any"},
+    {"src":"icons/icon-maskable-512.png","sizes":"512x512","type":"image/png","purpose":"maskable"}
+  ]
+}

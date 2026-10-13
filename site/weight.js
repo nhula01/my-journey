@@ -138,7 +138,8 @@ function renderChart() {
 async function refresh() {
   if(loading)return;loading=true;$('#refresh').disabled=true;
   try{const response=await fetch(journalURL,{cache:'no-store'});if(!response.ok)throw new Error(`Journal returned HTTP ${response.status}.`);const data=await response.json();if(data.version!==1||!Array.isArray(data.meals)||!Array.isArray(data.measurements)||!Array.isArray(data.reflections)||!data.goals)throw new Error('Unexpected journal format.');journal=data;render();
-    $('#sync-status').textContent=local?(data.updatedAt?`Updated ${new Date(data.updatedAt).toLocaleString()}`:'Ready for your first food log'):(data.updatedAt?`Published journal · updated ${new Date(data.updatedAt).toLocaleString()}`:'Published journal');status('');
+    const savedOffline=response.headers.get('X-Journey-Offline')==='true';
+    $('#sync-status').textContent=savedOffline?`Saved offline snapshot${data.updatedAt?` · published ${new Date(data.updatedAt).toLocaleString()}`:''}`:local?(data.updatedAt?`Updated ${new Date(data.updatedAt).toLocaleString()}`:'Ready for your first food log'):(data.updatedAt?`Published journal · updated ${new Date(data.updatedAt).toLocaleString()}`:'Published journal');status('');
   }catch(error){$('#sync-status').textContent='Journal could not refresh';status(`${error.message} Your last loaded dashboard is still shown.`);}finally{loading=false;$('#refresh').disabled=false;}
 }
 function shiftDay(offset){const date=new Date($('#day').value+'T12:00:00Z');date.setUTCDate(date.getUTCDate()+offset);$('#day').value=date.toISOString().slice(0,10);render();}
