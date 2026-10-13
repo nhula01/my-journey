@@ -10,6 +10,9 @@ def export_public():
     # Only the journal's known display fields; never copy the private directory,
     # GitHub credentials, temporary records or unrelated files.
     public={key:data[key] for key in ('version','updatedAt','goals','meals','measurements','reflections','activities') if key in data}
+    # Password-app submissions remain private unless the user explicitly publishes them.
+    for key in ('meals','measurements','reflections','activities'):
+        public[key]=[item for item in public.get(key,[]) if item.get('private') is not True]
     root=Path(__file__).resolve().parents[1]/'site'
     for meal in public.get('meals',[]):
         for photo in meal.get('photos',[]):

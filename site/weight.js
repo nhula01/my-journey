@@ -30,7 +30,7 @@ function render() {
   exercise.append(node('p','EXERCISE TODAY','eyebrow'),node('strong',sessions.length?`${exerciseMinutes} minutes logged${unknownDuration?' + activity with unknown duration':''}`:'No exercise logged yet'));
   sessions.forEach(a=>exercise.append(node('p',`${a.title} · ${Number.isFinite(a.minutes)?`${a.minutes} min`:'duration not provided'}${Number.isFinite(a.caloriesBurned)?` · ${a.source==='estimate'?'≈ ':''}${fmt(a.caloriesBurned)} kcal (${a.source})`:''}`)));
   exercise.append(node('p','Log workouts here in chat. Exercise is recorded separately; burn estimates are not automatically added to your food budget.','muted'));
-  Workouts.render(day,false,goals);
+  Workouts.render(day,false,goals,journal.measurements);
   const calorieValue=$('#calorie-value');calorieValue.replaceChildren(node('span',`${cal.estimated?'≈ ':''}${fmt(cal.value)}`,'energy-number'),node('span','kcal logged'));
   $('#calorie-range').textContent=rangeText(cal,'kcal');
   const b=N.budget(cal.value,goals.calories);

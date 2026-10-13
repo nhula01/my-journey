@@ -1,14 +1,14 @@
 /* Only the app shell and authorized public snapshot are cached. Never local APIs. */
 'use strict';
-const VERSION='20261012-app2';
+const VERSION='20261012-burn1';
 const BASE=new URL('./',self.registration.scope);
 const PREFIX=`my-journey:${BASE.pathname}:`;
 const SHELL=PREFIX+VERSION+':shell',DATA=PREFIX+'public-data';
 const ASSETS=[
-  'index.html','style.css?v=0bf7b4a2bd65','weight.css?v=20261012bodygoal',
-  'nutrition.js?v=502b16f0a8eb','workout-data.js?v=20261012bodygoal',
-  'workouts.js?v=20261012repeat','weight.js?v=20261012app2',
-  'pwa.css?v=20261012app2','pwa.js?v=20261012app2','manifest.webmanifest',
+  'index.html','style.css?v=0bf7b4a2bd65','weight.css?v=20261012burn1',
+  'activity-energy.js?v=20261012phone1','nutrition.js?v=502b16f0a8eb','workout-data.js?v=20261012bodygoal',
+  'workouts.js?v=20261012burn1','weight.js?v=20261012burn1',
+  'pwa.css?v=20261012burn1','pwa.js?v=20261012burn1','manifest.webmanifest',
   'icons/apple-touch-icon.png','icons/icon-192.png','icons/icon-512.png','icons/icon-maskable-512.png',
   ...['warmup','walk','easy','plank','legpress','cooldown','hamstring','rowmachine','chestpress','shoulders'].map(id=>`workout-muscles/${id}.svg`)
 ];
